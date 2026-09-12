@@ -27,4 +27,4 @@ Serve `gallery/` locally using the README command. Test a current Chrome and Saf
 9. Open the Methodology disclosure and follow the manifest link. No patient-data or diagnostic claims should appear.
 10. Load `gallery/index.html` directly from disk with the network unavailable. Its local scripts and saved charts should still work. Initial Python dependency installation is a separate network-dependent step.
 
-Observed checks and limitations are recorded in [verification.md](verification.md). The pytest suite tests numerical behavior; the Playwright CLI script tests browser wiring and interaction. CI is configured to run WebKit on the freshly exported gallery, but a remote pass must be observed separately.
+Observed checks and limitations are recorded in [verification.md](verification.md). The pytest suite tests numerical behavior; the Playwright CLI script tests browser wiring and interaction. CI runs WebKit on the freshly exported gallery. The observed remote pass is linked in the verification record.

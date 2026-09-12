@@ -30,4 +30,4 @@ Canonical JSON sorts keys, uses UTF-8 and compact separators, and forbids NaN/In
 
 There are no creation timestamps in scientific IDs. ZIP metadata is normalized as a convenience, but only payload hash identity is the contract. Environment files can differ by OS, numerical library, git state and machine. Whole-archive byte identity across platforms is not promised.
 
-Before a repository exists, revision is `null`; the Python source fingerprint still identifies the code used. Rebuild release bundles from the chosen source revision before publishing a release tag. GitHub Actions has been configured for `macos-15` with an explicit arm64 check, but a local pass is not a remote CI pass.
+Before a repository exists, revision is `null`; the Python source fingerprint still identifies the code used. Rebuild release bundles from the chosen source revision before publishing a release tag. GitHub Actions runs on `macos-15` with an explicit arm64 check. The observed remote result and a replay of a published bundle are linked in [the verification record](verification.md).

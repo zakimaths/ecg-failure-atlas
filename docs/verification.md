@@ -53,7 +53,7 @@ uv run --locked ecg-atlas replay build/check --mode regenerate
 uv run --locked ecg-atlas export-gallery build/check --out build/check-gallery
 ```
 
-Use new directories when repeating. Follow [the browser checklist](browser-checks.md) for interactive checks. The repeatable browser suite is now included in the Mac CI workflow. The final local Chrome and WebKit runs passed. A remote GitHub run remains outstanding.
+Use new directories when repeating. Follow [the browser checklist](browser-checks.md) for interactive checks. The repeatable browser suite is included in the Mac CI workflow. Local Chrome and WebKit runs passed; the remote WebKit result is recorded below.
 
 ## Release-preparation follow-up
 
@@ -79,4 +79,6 @@ Before publishing measured claims, regenerate release bundles from the chosen so
 
 ## GitHub publication
 
-The public repository and Pages workflow are being configured. The local checks above are completed; a remote result will be linked here once observed.
+The [first public workflow](https://github.com/zakimaths/ecg-failure-atlas/actions/runs/34688399062) passed on source revision `fe9026173ab70c665870668e81d92790766c85eb`. Its Apple Silicon job passed numerical tests, all 15 bundle builds and both replay modes, the gallery evidence check, and WebKit verification. GitHub Pages deployment also passed.
+
+A clipping bundle downloaded from the [live demo](https://zakimaths.github.io/ecg-failure-atlas/) recorded that same clean source revision and an arm64 macOS 15.7.9 environment. On the local Mac it passed payload verification, saved-input replay and full regeneration. This supplies a second-machine check in a hosted runner, but is not an independent scientific review by another person.

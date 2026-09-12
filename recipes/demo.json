@@ -1,0 +1,1 @@
+{"schema_version":1,"cases":[{"kind":"clipping","values":[0.4,0.65,0.9]},{"kind":"delay","values":[2,5,12]},{"kind":"aliasing","values":[31,61,101]},{"kind":"baseline","values":[0.1,0.5,1.0]},{"kind":"edges","values":[10.0,20.0,35.0]}]}

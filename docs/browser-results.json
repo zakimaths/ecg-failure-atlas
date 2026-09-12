@@ -1,0 +1,57 @@
+{
+  "node": "v26.7.0",
+  "platform": "darwin",
+  "architecture": "arm64",
+  "results": [
+    {
+      "status": "passed",
+      "offlineMode": "file navigation with network disabled",
+      "variantsChecked": 15,
+      "differenceViews": 5,
+      "browser": "152.0.7977.84",
+      "checks": [
+        "exact trace samples",
+        "sample coordinates",
+        "metric values",
+        "links",
+        "alignment",
+        "keyboard",
+        "deep link reload",
+        "download",
+        "clipboard denial",
+        "skip link",
+        "responsive plot",
+        "offline file gallery",
+        "profile links",
+        "no em dashes",
+        "no external requests"
+      ],
+      "errors": []
+    },
+    {
+      "status": "passed",
+      "offlineMode": "loaded page interactions with network disabled",
+      "variantsChecked": 15,
+      "differenceViews": 5,
+      "browser": "26.5",
+      "checks": [
+        "exact trace samples",
+        "sample coordinates",
+        "metric values",
+        "links",
+        "alignment",
+        "keyboard",
+        "deep link reload",
+        "download",
+        "clipboard denial",
+        "skip link",
+        "responsive plot",
+        "offline loaded-page interaction",
+        "profile links",
+        "no em dashes",
+        "no external requests"
+      ],
+      "errors": []
+    }
+  ]
+}

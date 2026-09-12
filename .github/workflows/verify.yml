@@ -1,0 +1,73 @@
+name: Verify on Apple Silicon
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Confirm native arm64 and install pinned uv
+        run: |
+          test "$(uname -m)" = arm64
+          python3 -m venv "$RUNNER_TEMP/uv-bootstrap"
+          "$RUNNER_TEMP/uv-bootstrap/bin/python" -m pip install uv==0.9.17
+          echo "$RUNNER_TEMP/uv-bootstrap/bin" >> "$GITHUB_PATH"
+      - name: Install locked environment
+        run: uv sync --locked
+      - name: Record environment and check source
+        run: |
+          uv run --locked python -c 'import platform; print(platform.platform(), platform.python_version(), platform.machine()); assert platform.machine() == "arm64"'
+          uv run --locked ruff check src tests
+          uv run --locked ruff format --check src tests
+      - name: Independent numerical tests and bundle round trips
+        run: uv run --locked pytest -q
+      - name: Build and replay every case
+        run: |
+          uv run --locked ecg-atlas build recipes/demo.json --out build/ci
+          uv run --locked ecg-atlas verify build/ci
+          uv run --locked ecg-atlas replay build/ci --mode saved-input
+          uv run --locked ecg-atlas replay build/ci --mode regenerate
+          uv run --locked ecg-atlas export-gallery build/ci --out build/site
+          uv run --locked python scripts/verify-gallery.py build/site
+      - name: Install pinned browser tooling
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Install WebKit
+        run: npx --no-install playwright-cli install-browser webkit
+      - name: Verify the freshly generated gallery in WebKit
+        env:
+          ATLAS_GALLERY: build/site
+        run: npm run check:browser -- webkit
+      - name: Upload checked gallery
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+        with:
+          path: build/site
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4

@@ -108,3 +108,7 @@ Observed locally on **13 September 2026**, on Apple Silicon macOS with the locke
 - The existing synthetic suites also passed: 14 independent numerical comparisons, all 15 reference cases in Chrome/WebKit, and both custom-page browser suites.
 
 The clinical subset is a convenience selection of three subjects, not a population benchmark. These checks establish source preservation and reproducible computation, not clinical effectiveness. Real-recording measurements are changes from recorded input; no clean physiological ground truth is claimed. See [clinical methods](clinical-recordings.md) and the [clinical browser results](clinical-browser-results.json).
+
+## Process playback follow-up
+
+Observed locally on 13 September 2026. Chrome and WebKit passed the new `npm run check:motion` suite on both hospital and synthetic analysis pages: no autoplay, sequential playback, stop, complete sample paths, stable numerical plot data, cancellation after settings changes, reduced-motion preference changes, keyboard static view and mobile layout. Both existing clinical and custom-analysis browser suites also passed, including exports and replay. The preview operates only on display elements; the numerical engines and replay formats are unchanged. The same motion checks run in the Apple Silicon verification workflow.

@@ -14,6 +14,7 @@
     identity:{...E.defaults,noise_mv:0,cutoff_hz:0}
   };
   const exportButtons=['save-experiment','save-csv','share-experiment'];
+  const motion=ECGProcessMotion.mount($('pipeline-note'));
   function setForm(config){for(const key of Object.keys(E.defaults))$(key).value=config[key];}
   function readForm(){return E.validate(Object.fromEntries(Object.keys(E.defaults).map(k=>[k,k==='mode'?$(k).value:Number($(k).value)])));}
   function freeze(value){
@@ -22,6 +23,7 @@
     exportButtons.forEach(id=>{$(id).disabled=value||pending||!result;});
   }
   function markPending(){
+    motion.invalidate();
     pending=true;$('run-status').textContent='Settings changed. Run to update the measurements below.';$('run-status').dataset.state='pending';
     $('export-status').textContent='Run the changed settings before exporting.';exportButtons.forEach(id=>{$(id).disabled=true;});
   }
@@ -103,12 +105,13 @@
   function decode(hash){if(!hash.startsWith('#v1/')||hash.length>2048)throw Error('This experiment link has an unsupported format.');return E.validate(JSON.parse(atob(hash.slice(4))));}
   async function run(config,imported=false){
     if(busy){queued={config,imported};return;}
-    freeze(true);$('run-status').dataset.state='';$('run-status').textContent='Calculating signals, response and cutoff sweep…';
+    motion.invalidate();freeze(true);$('run-status').dataset.state='';$('run-status').textContent='Calculating signals, response and cutoff sweep…';
     await new Promise(resolve=>requestAnimationFrame(resolve));
     try{
       result=E.evaluate(config);sweep=E.sweep(config);pending=false;
       history.replaceState(null,'',encode(result.config));$('lab-results').hidden=false;
       metrics();await Promise.all([plotSignal(),plotResponse(),renderSweep()]);
+      motion.update({input:result.arrays.input,output:result.arrays.output,config:result.config,fs:E.FS,inputLabel:"Perturbed input"});
       for(const id of ['lab-chart','response-chart','sweep-chart'])Plotly.Plots.resize($(id));
       $('export-status').textContent='';$('run-status').textContent=`Computed 4,000 samples and ${sweep.length} cutoff comparisons. Settings and results agree.`;
       if(imported){$('import-status').dataset.state='';$('import-status').textContent='Replay passed: arrays, coefficients and measurements agree within 1e-10. The saved settings are restored.';}
@@ -138,6 +141,6 @@
   document.querySelector('.skip').addEventListener('click',event=>{event.preventDefault();$('main').focus();$('main').scrollIntoView();});
   const resize=new ResizeObserver(entries=>{for(const entry of entries)if(entry.target.data){if(entry.target.id==='lab-chart')Plotly.relayout(entry.target,{'margin.t':entry.target.clientWidth<560?115:65});Plotly.Plots.resize(entry.target);}});
   for(const id of ['lab-chart','response-chart','sweep-chart'])resize.observe($(id));
-  function fromHash(){try{const config=location.hash?decode(location.hash):{...E.defaults};setForm(config);run(config);}catch(error){setForm(E.defaults);pending=true;freeze(false);$('run-status').dataset.state='error';$('run-status').textContent=error.message+' Choose a starting question to continue.';}}
+  function fromHash(){try{const config=location.hash?decode(location.hash):{...E.defaults};setForm(config);run(config);}catch(error){setForm(E.defaults);pending=true;freeze(false);$('run-status').dataset.state='error';$('run-status').textContent=error.message+' Choose a processing preset to continue.';}}
   window.addEventListener('hashchange',fromHash);fromHash();
 })();

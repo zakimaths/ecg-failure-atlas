@@ -206,3 +206,7 @@ The sweep has a contained horizontal table on narrow screens. Only the table scr
 ## Clinical recording analysis
 
 The project is a biocomputing demo. Use analysis headings and concise operating explanations, not teaching questions or lesson sequencing. The hospital page shares the same full-width document layout and profile links. Recorded and processed traces use violet and amber. Label all metrics as processing changes against recorded input, never errors against clean truth. Keep PTB source attribution and its data licence visible. Analysis exports carry the source, calibration and processing contract. The lead and cutoff tables support comparisons without adding a sidebar.
+
+## Process playback
+
+Clinical and synthetic analysis share an optional processing preview built from the actual input, clipped input and output samples. All three use one amplitude scale. A short cursor sweep visits the stages in pipeline order, 520 ms per stage. Playback never changes waveform values, measurements or exported evidence. There is no autoplay or loop. Repeated clicks stop playback; changed settings and hidden tabs cancel it. Reduced-motion preferences show static stages and are respected if changed during playback. Keyboard interaction uses the static view. Incidental refresh feedback is an opacity-only 180 ms transition, suppressed for keyboard use and reduced motion. Native browser animations require no additional runtime dependency.

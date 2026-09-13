@@ -4,13 +4,14 @@
   const tok=name=>getComputedStyle(document.documentElement).getPropertyValue('--'+name).trim();
   const fmt=v=>v===0?'0':v.toFixed(4),exports=['clinical-json','clinical-csv','clinical-share'];
   let result=null,difference=false,busy=false,pending=false;
+  const motion=ECGProcessMotion.mount($('applied-settings'));
   for(const r of data.records){const o=document.createElement('option');o.value=r.id;o.textContent=r.id;$('record').append(o);}
   for(const lead of leads){const o=document.createElement('option');o.value=lead;o.textContent=lead.toUpperCase();$('lead').append(o);}
   function form(c){Object.keys(E.defaults).forEach(k=>{$(k).value=c[k];});}
   function read(){const c=Object.fromEntries(Object.keys(E.defaults).map(k=>[k,['record','lead','mode'].includes(k)?$(k).value:Number($(k).value)]));E.validate(c,data);return c;}
   function status(message,error=false){$('clinical-status').textContent=message;$('clinical-status').dataset.state=error?'error':'ready';}
   function freeze(on){busy=on;document.querySelectorAll('#clinical-form input,#clinical-form select,#run-clinical,#lead-rows button,#clinical-sweep button,#clinical-import').forEach(el=>{el.disabled=on;});exports.forEach(id=>{$(id).disabled=on||pending||!result;});}
-  function mark(){pending=true;exports.forEach(id=>{$(id).disabled=true;});status('Settings changed. Run analysis to update the displayed result.');}
+  function mark(){motion.invalidate();pending=true;exports.forEach(id=>{$(id).disabled=true;});status('Settings changed. Run analysis to update the displayed result.');}
   async function plot(){
     if(!result)return;const a=result.arrays,x=a.recorded.map((_,i)=>i/1000);
     const curves=difference?[{name:'Processed − recorded',y:a.output.map((v,i)=>v-a.recorded[i]),color:tok('output')}]:[{name:'Recorded',y:a.recorded,color:tok('reference')},{name:'Processed',y:a.output,color:tok('output')}];
@@ -20,7 +21,7 @@
   function cell(row,text){const td=document.createElement('td');td.textContent=text;row.append(td);return td;}
   function row(target,label,c,values,current){const tr=document.createElement('tr');tr.dataset.current=current;const td=cell(tr,''),button=document.createElement('button');button.type='button';button.textContent=label;button.addEventListener('click',()=>{if(!busy){form(c);run(c);}});td.append(button);values.forEach(v=>cell(tr,fmt(v)));target.append(tr);}
   async function run(c){
-    if(busy)return;freeze(true);status('Calculating lead and cutoff comparisons…');
+    if(busy)return;motion.invalidate();freeze(true);status('Calculating lead and cutoff comparisons…');
     try{
       const next=E.evaluate(c,data);result=next;pending=false;form(c);
       $('clinical-results').hidden=false;$('record-heading').textContent=c.record+' · '+c.lead.toUpperCase();
@@ -29,7 +30,7 @@
       for(const [label,key,unit] of [['RMS change','rms_change_mv','mV'],['Delay-adjusted RMS','aligned_rms_change_mv','mV'],['Largest change','max_abs_change_mv','mV'],['Declared FIR delay','filter_delay_ms','ms']]){const el=document.createElement('article');el.className='metric';const h=document.createElement('h3');h.textContent=label;const p=document.createElement('div');p.className='metric-value';p.textContent=(unit==='ms'?next.metrics[key]:fmt(next.metrics[key]));const u=document.createElement('span');u.textContent=unit;p.append(u);el.append(h,p);$('clinical-metrics').append(el);}
       $('lead-rows').replaceChildren();for(const lead of leads){const config={...c,lead},m=E.evaluate(config,data).metrics;row($('lead-rows'),lead.toUpperCase(),config,[m.rms_change_mv,m.aligned_rms_change_mv,m.recorded_p2p_mv,m.processed_p2p_mv],lead===c.lead);}
       $('clinical-sweep').replaceChildren();for(const cutoff_hz of [...new Set([0,5,12,20,35,50,100,c.cutoff_hz])].sort((a,b)=>a-b)){const config={...c,cutoff_hz},m=E.evaluate(config,data).metrics;row($('clinical-sweep'),cutoff_hz?cutoff_hz+' Hz':'Bypass',config,[m.rms_change_mv,m.aligned_rms_change_mv,m.max_abs_change_mv],cutoff_hz===c.cutoff_hz);}
-      await plot();history.replaceState(null,'','#v1/'+encodeURIComponent(JSON.stringify(c)));status('Analysis complete · 12 leads · '+$('clinical-sweep').children.length+' cutoff settings');$('clinical-export-status').textContent='';
+      await plot();motion.update({input:next.arrays.recorded,output:next.arrays.output,config:c,fs:1000});history.replaceState(null,'','#v1/'+encodeURIComponent(JSON.stringify(c)));status('Analysis complete · 12 leads · '+$('clinical-sweep').children.length+' cutoff settings');$('clinical-export-status').textContent='';
     }catch(error){pending=true;status(error.message,true);}finally{freeze(false);}
   }
   function download(name,content,type){const url=URL.createObjectURL(new Blob([content],{type})),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);}

@@ -210,3 +210,7 @@ The project is a biocomputing demo. Use analysis headings and concise operating 
 ## Process playback
 
 Clinical and synthetic analysis share an optional processing preview built from the actual input, clipped input and output samples. All three use one amplitude scale. A short cursor sweep visits the stages in pipeline order, 520 ms per stage. Playback never changes waveform values, measurements or exported evidence. There is no autoplay or loop. Repeated clicks stop playback; changed settings and hidden tabs cancel it. Reduced-motion preferences show static stages and are respected if changed during playback. Keyboard interaction uses the static view. Incidental refresh feedback is an opacity-only 180 ms transition, suppressed for keyboard use and reduced motion. Native browser animations require no additional runtime dependency.
+
+## Batch benchmark
+
+The batch section follows the clinical analysis on the same document-style page. Keep the protocol visible, make progress reflect actual completed lead-setting calculations, and keep cancel available during work. Use one median-change curve per recording; never present leads as independent subjects. Summary tables describe variation across a recording's 12 leads. The cutoff selector filters only the detailed table, while exports always contain all results. Changed settings visibly mark previous results stale and disable downloads. Results link directly to the exact clinical record/lead/settings. The batch itself has no decorative animation.

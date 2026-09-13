@@ -40,6 +40,19 @@ cmp build/ptb-rebuilt.json src/ecg_atlas/data/ptb-subset.json
 
 [Clinical methods, source provenance and data licence](docs/clinical-recordings.md).
 
+## Batch benchmark
+
+The [batch section](https://zakimaths.github.io/ecg-failure-atlas/clinical.html#batch-section) applies the selected clipping, FIR length and timing to **all 3 recordings × 12 leads**, sweeping 0, 12, 20, 35, 50 and 100 Hz plus the current cutoff. The default protocol produces **216 lead-setting results**.
+
+Compare per-record summaries, filter the individual results by cutoff and open any row as a single-record analysis. JSON and CSV downloads include all cutoffs. Runs can be cancelled; changed settings disable stale exports. Computation stays local and yields between leads to keep the page responsive.
+
+```sh
+uv run --locked ecg-atlas run-batch recipes/batch.json --out build/my-batch.json
+uv run --locked ecg-atlas replay-batch build/my-batch.json
+```
+
+The compact JSON stores protocol, source attribution, coefficients, row-level metrics and per-record summaries. Replay loads the pinned PTB samples and independently recomputes the batch. The 12 leads within each record are related measurements. Summaries are descriptive, not population estimates or filter-quality rankings. See [batch methods](docs/batch-benchmark.md).
+
 ## Synthetic processing analysis
 
 The [custom experiment page](https://zakimaths.github.io/ecg-failure-atlas/lab.html) adds:
@@ -95,6 +108,7 @@ npx --no-install playwright-cli install-browser webkit
 npm run check:browser
 npm run check:lab
 npm run check:clinical
+npm run check:batch
 uv run --locked python scripts/check-live.py
 uv run --locked python scripts/check-clinical.py
 ```

@@ -30,9 +30,31 @@ def main():
         "replay-clinical", help="Verify a hospital-recording experiment against the pinned source"
     )
     p.add_argument("source")
+    for name in ("run-batch", "replay-batch"):
+        p = commands.add_parser(name, help="Run or independently replay the fixed clinical batch")
+        p.add_argument("source")
+        if name == "run-batch":
+            p.add_argument("--out", required=True)
     args = parser.parse_args()
     try:
-        if args.command == "replay-clinical":
+        if args.command in ("run-batch", "replay-batch"):
+            from pathlib import Path
+            from . import batch, live
+            from .bundle import write_json
+
+            doc = live.read_experiment(args.source)
+            if args.command == "run-batch":
+                out = Path(args.out)
+                if out.exists():
+                    raise ValueError("Choose a fresh output file")
+                result = batch.evaluate(doc)
+                out.parent.mkdir(parents=True, exist_ok=True)
+                write_json(out, result)
+                print(f"Batch ready: {len(result['rows'])} lead-setting results in {out}")
+            else:
+                result = batch.replay(doc)
+                print(f"PASS: {len(result['rows'])} batch rows, summaries, coefficients and source")
+        elif args.command == "replay-clinical":
             from . import clinical, live
 
             clinical.replay(live.read_experiment(args.source))

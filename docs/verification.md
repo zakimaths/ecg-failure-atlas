@@ -112,3 +112,15 @@ The clinical subset is a convenience selection of three subjects, not a populati
 ## Process playback follow-up
 
 Observed locally on 13 September 2026. Chrome and WebKit passed the new `npm run check:motion` suite on both hospital and synthetic analysis pages: no autoplay, sequential playback, stop, complete sample paths, stable numerical plot data, cancellation after settings changes, reduced-motion preference changes, keyboard static view and mobile layout. Both existing clinical and custom-analysis browser suites also passed, including exports and replay. The preview operates only on display elements; the numerical engines and replay formats are unchanged. The same motion checks run in the Apple Silicon verification workflow.
+
+## Version 0.4 batch benchmark
+
+Observed locally on 13 September 2026, Apple Silicon macOS, with locked version 0.4.0 dependencies.
+
+- **103 Python tests passed**, adding batch identity coverage, known-value summaries, single-record equivalence, invalid protocol rejection and altered-result/source detection.
+- **324 browser-engine batch rows** from two protocols passed independent Python/SciPy replay, including all summaries, coefficients and source fields. The protocols cover the default six-cutoff sweep and a causal, clipped, 101-tap sweep including 12.5 Hz.
+- Chrome and WebKit passed batch cancellation, 216-row default coverage, 18 summaries, 36-row cutoff views, filter-bypass identity, drilldown settings, complete JSON/CSV exports, stale-result protection, mobile fit and offline calculation.
+- Actual JSON downloads from both browsers passed Python replay; every CSV metric matched its JSON row.
+- Both existing clinical browser suites passed after the integration. The batch navigation checks cover direct and in-page links to the benchmark.
+
+The batch summaries describe three subjects. No lead-independence, clinical efficacy or population-level inference is established by these checks. See [batch methods](batch-benchmark.md).

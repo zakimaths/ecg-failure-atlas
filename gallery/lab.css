@@ -11,3 +11,8 @@
 
 .lab-table-hint{display:none}
 @media(max-width:560px){.lab-table-hint{display:block}}
+
+.clinical-page #record-heading{overflow-wrap:anywhere}.clinical-page #clinical-export-status,.clinical-page #clinical-import-status{font-size:12px;color:var(--accent);overflow-wrap:anywhere}.clinical-page .lab-fields{row-gap:24px}
+.clinical-page .measurements{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:1000px){.clinical-page .measurements{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.clinical-page .measurements{grid-template-columns:1fr}}

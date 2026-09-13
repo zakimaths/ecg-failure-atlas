@@ -137,3 +137,5 @@ Observed locally on 13 September 2026, Apple Silicon macOS, with locked version 
 - Existing clinical, batch and process-playback browser suites passed in both engines. The independent 14 custom experiments, 72 clinical comparisons, 324 batch rows and all 15 prepared gallery variants also passed.
 
 The detector is a reproducible processing-sensitivity experiment. It is not clinically validated. These records supply no beat annotations in the bundled subset, so the project does not report detector sensitivity, precision or disease accuracy. See [the detector method](beat-detection.md).
+
+The first hosted 0.5 check stopped on document overflow during a mobile batch-page resize. Chart frames now contain intermediate render sizes, and browser checks wait for every displayed clinical plot to fit its frame. The strengthened batch and detection checks pass in Chrome and WebKit locally.

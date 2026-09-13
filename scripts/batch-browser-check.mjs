@@ -17,6 +17,7 @@ try{for(const browser of browsers){const session='atlas-batch-'+browser+'-'+proc
  promise=page.waitForEvent('download');await page.locator('#batch-csv').click();await(await promise).saveAs('${output}/${browser}-batch.csv');
  await page.setViewportSize({width:1440,height:1000});await page.evaluate(()=>window.scrollTo({top:document.getElementById('batch-section').offsetTop-20,behavior:'instant'}));await page.screenshot({path:'${output}/${browser}-batch.png'});
  await page.setViewportSize({width:390,height:844});await page.waitForFunction(()=>{const el=document.getElementById('batch-chart');return Math.abs(el.querySelector('.main-svg').getBoundingClientRect().width-el.clientWidth)<2;});
+ await page.waitForFunction(()=>[...document.querySelectorAll('.lab-chart')].filter(e=>e.data).every(e=>Math.abs(e.querySelector('.main-svg').getBoundingClientRect().width-e.clientWidth)<2));
  assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'Mobile overflow');await page.locator('#batch-chart').screenshot({path:'${output}/${browser}-batch-mobile.png'});
  await page.locator('#clip_mv').fill('0.4');assert(await page.locator('#batch-json').isDisabled(),'Stale export enabled');assert(await page.locator('#batch-run').isDisabled(),'Unapplied settings allowed');
  await page.locator('#run-clinical').click();await page.waitForFunction(()=>!document.getElementById('batch-run').disabled);

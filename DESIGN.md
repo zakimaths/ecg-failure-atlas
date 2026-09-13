@@ -197,8 +197,12 @@ A native details element separates methods from the main demonstration. Its summ
 
 ## Custom experiment page
 
-The custom page follows the same reading order as the reference demo: question, controls, signal, measurements, interpretation and reproducible evidence. Two numbered fieldsets represent the actual input and processing stages. Their four-column fields become two columns on smaller screens. Starting questions are ordinary buttons rather than a second navigation sidebar.
+The custom page follows the same reading order as the reference demo: analysis scope, controls, signal, measurements, methods and reproducible evidence. Two fieldsets separate input perturbations and processing settings. Their four-column fields become two columns on smaller screens. Processing presets use ordinary buttons within the document flow.
 
 The large signal plot is followed by a clean-input comparison, FIR response and a cutoff sweep. Purple remains the reference, amber the processed signal and mint the processed clean branch. Error decomposition reuses those meanings. Native numeric fields and selects use the existing square boundaries and visible focus treatment. Downloads remain disabled while edits have not been calculated.
 
 The sweep has a contained horizontal table on narrow screens. Only the table scrolls; the page and charts fit the viewport. Chart frames use outlines so their inner dimensions agree with the plotting library's measured width. The interface adds no decorative motion or remote assets.
+
+## Clinical recording analysis
+
+The project is a biocomputing demo. Use analysis headings and concise operating explanations, not teaching questions or lesson sequencing. The hospital page shares the same full-width document layout and profile links. Recorded and processed traces use violet and amber. Label all metrics as processing changes against recorded input, never errors against clean truth. Keep PTB source attribution and its data licence visible. Analysis exports carry the source, calibration and processing contract. The lead and cutoff tables support comparisons without adding a sidebar.

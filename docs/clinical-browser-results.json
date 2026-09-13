@@ -1,0 +1,48 @@
+{
+  "results": [
+    {
+      "status": "passed",
+      "browser": "chrome",
+      "checks": [
+        "three hospital records",
+        "exact plotted samples",
+        "identity",
+        "12 lead rows",
+        "cutoff selection",
+        "difference",
+        "pending export",
+        "JSON/CSV",
+        "share reload",
+        "clipboard fallback",
+        "replay import",
+        "tamper rejection",
+        "desktop/mobile",
+        "attribution",
+        "offline calculation"
+      ],
+      "errors": []
+    },
+    {
+      "status": "passed",
+      "browser": "webkit",
+      "checks": [
+        "three hospital records",
+        "exact plotted samples",
+        "identity",
+        "12 lead rows",
+        "cutoff selection",
+        "difference",
+        "pending export",
+        "JSON/CSV",
+        "share reload",
+        "clipboard fallback",
+        "replay import",
+        "tamper rejection",
+        "desktop/mobile",
+        "attribution",
+        "offline calculation"
+      ],
+      "errors": []
+    }
+  ]
+}

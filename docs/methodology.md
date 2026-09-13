@@ -32,4 +32,4 @@ Independent tests cover literal tiny arrays, a delayed impulse, an analytically 
 
 Array and numeric metric replay tolerances are absolute 1e-12 and relative 1e-12. This is well below the display precision and the sub-millivolt effects shown, and accommodates insignificant floating-point differences. Analytic test bounds are separately stated in the tests (up to 4e-13 for sine calculations). These passed in the recorded local environment; cross-platform equivalence has not yet been established.
 
-A finite synthetic suite cannot establish robustness across physiological variation, patients, devices, or diagnoses. Real-data tests, a detector, and classifier evaluation require separate definitions and evidence. No ECGSYN code, PTB-XL data, or clinical labels are redistributed here.
+A finite synthetic suite cannot establish robustness across physiological variation, patients, devices, or diagnoses. The separate [hospital recording analysis](clinical-recordings.md) reports processing changes on PTB samples without known clean truth. Detector and classifier evaluation remain outside scope. No ECGSYN code, PTB-XL data, or clinical labels are redistributed here.

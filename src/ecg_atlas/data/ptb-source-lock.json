@@ -1,0 +1,63 @@
+{
+  "schema": "ecg-atlas-ptb-subset/1",
+  "dataset": "PTB Diagnostic ECG Database",
+  "version": "1.0.0",
+  "source_url": "https://physionet.org/content/ptbdb/1.0.0/",
+  "doi": "10.13026/C28C71",
+  "institution": "University Clinic Benjamin Franklin, Berlin",
+  "license": "ODC-By-1.0",
+  "license_url": "https://physionet.org/content/ptbdb/view-license/1.0.0/",
+  "attribution": "Contains information from the PTB Diagnostic ECG Database, made available under the ODC Attribution License v1.0. Collected by Michael Oeff at University Clinic Benjamin Franklin, Berlin; provided by PTB through PhysioNet.",
+  "citations": [
+    "Bousseljot R, Kreiseler D, Schnabel A. Nutzung der EKG-Signaldatenbank CARDIODAT der PTB ueber das Internet. Biomedizinische Technik 40, Ergaenzungsband 1 (1995), 317.",
+    "Pollard T et al. PhysioNet as a global platform for biomedical research. Nature Health (2026). doi:10.1038/s44360-026-00096-z."
+  ],
+  "selection": "First listed recording from each of the first three subject directories in PhysioNet RECORDS; samples [0, 8000), 12 standard leads. A convenience subset, not a representative cohort.",
+  "processing": "Lossless extraction of signed 16-bit counts. No resampling, centering, denoising or normalisation. Clinical header comments are omitted.",
+  "fs_hz": 1000,
+  "samples": 8000,
+  "start_sample": 0,
+  "gain_adu_per_mv": 2000,
+  "baseline_adu": 0,
+  "records": [
+    {
+      "id": "patient001/s0010_re",
+      "files": {
+        "hea": {
+          "url": "https://physionet.org/files/ptbdb/1.0.0/patient001/s0010_re.hea",
+          "sha256": "30d2d5db5b7b735f7dc39e5cf3e60a433a868b53d24587c9820cf51aa1729b87"
+        },
+        "dat": {
+          "url": "https://physionet.org/files/ptbdb/1.0.0/patient001/s0010_re.dat",
+          "sha256": "4e26a62c96e50eebd0eca7a11a4ad62ac8d7654e4de47acf2e0ce64be9565f20"
+        }
+      }
+    },
+    {
+      "id": "patient002/s0015lre",
+      "files": {
+        "hea": {
+          "url": "https://physionet.org/files/ptbdb/1.0.0/patient002/s0015lre.hea",
+          "sha256": "cc9f0a742bc19b1c8a5cc310b4e24d389dde2e93e6a83aebbbbeede2c65a77e8"
+        },
+        "dat": {
+          "url": "https://physionet.org/files/ptbdb/1.0.0/patient002/s0015lre.dat",
+          "sha256": "c9e4a4cd31e7509786a24fa9241968eb155262a046c3e9515b15c6ab9c2ea9ea"
+        }
+      }
+    },
+    {
+      "id": "patient003/s0017lre",
+      "files": {
+        "hea": {
+          "url": "https://physionet.org/files/ptbdb/1.0.0/patient003/s0017lre.hea",
+          "sha256": "e2ba68e4e6239d6bfff07f7896bc6cc9fee1b979c44e812a4e1d7c98627a5544"
+        },
+        "dat": {
+          "url": "https://physionet.org/files/ptbdb/1.0.0/patient003/s0017lre.dat",
+          "sha256": "a18a27401500c8abea4399c0e6caf5dd6b2be567cfe5d56be33962d38595d557"
+        }
+      }
+    }
+  ]
+}

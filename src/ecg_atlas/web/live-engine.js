@@ -29,9 +29,9 @@
     }
     return x;
   }
-  function coefficients(config) {
+  function coefficients(config, fs = FS) {
     if (!config.cutoff_hz) return [1];
-    const midpoint = (config.taps-1)/2, fc = config.cutoff_hz/FS;
+    const midpoint = (config.taps-1)/2, fc = config.cutoff_hz/fs;
     const b = Array.from({length:config.taps}, (_,i) => {
       const t = i-midpoint;
       return (t === 0 ? 2*fc : Math.sin(2*Math.PI*fc*t)/(Math.PI*t)) * (.54-.46*Math.cos(2*Math.PI*i/(config.taps-1)));

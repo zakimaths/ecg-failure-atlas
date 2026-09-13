@@ -16,7 +16,7 @@ NumPy and SciPy are BSD-3-Clause projects; their wheel distributions carry their
 
 ## Prior art and data
 
-ECGSYN is acknowledged in the research report and sources. No ECGSYN code, Numerical Recipes code, PTB-XL recording, or other third-party waveform dataset is included. Engineering samples are generated from the original functions in this repository. The gallery uses local font files and inline profile symbols. It makes no external font requests.
+ECGSYN is acknowledged in the research report and sources. No ECGSYN code, Numerical Recipes code or PTB-XL recording is included. The PTB Diagnostic ECG subset is attributed separately below. Engineering samples are generated from the original functions in this repository. The gallery uses local font files and inline profile symbols. It makes no external font requests.
 
 ## Optional browser tooling
 
@@ -25,3 +25,16 @@ Playwright CLI and its pinned Playwright dependencies are installed as developme
 ## Local fonts
 
 Press Start 2P is redistributed under the SIL Open Font License 1.1 from the Google Fonts repository. JetBrains Mono Regular and Bold are redistributed under the same licence from the bundled font collection. The unmodified font files and their full licences are included in the gallery and gallery source: `PRESS-START-LICENSE.txt` and `JETBRAINS-MONO-LICENSE.txt`. Fonts are not covered by the project's MIT licence.
+
+## PTB hospital ECG subset
+
+`src/ecg_atlas/data/ptb-subset.json`, its exported `clinical-data.js` and derived clinical downloads contain information from the **PTB Diagnostic ECG Database v1.0.0**, made available under the **Open Data Commons Attribution License v1.0**. This data licence is separate from the project's MIT code licence.
+
+- Dataset: https://physionet.org/content/ptbdb/1.0.0/
+- Licence text: https://physionet.org/content/ptbdb/view-license/1.0.0/
+- DOI: https://doi.org/10.13026/C28C71
+- Collection: Michael Oeff, Department of Cardiology, University Clinic Benjamin Franklin, Berlin. Compilation provided by PTB through PhysioNet.
+- Bousseljot R, Kreiseler D, Schnabel A. Nutzung der EKG-Signaldatenbank CARDIODAT der PTB über das Internet. Biomedizinische Technik 40, Ergänzungsband 1 (1995), 317.
+- Pollard T et al. PhysioNet as a global platform for biomedical research. Nature Health (2026). doi:10.1038/s44360-026-00096-z.
+
+Only the first eight seconds of 12 standard leads from the first listed record in the first three subject directories are included. Original signed digital samples are retained; no resampling or denoising is performed in extraction. Clinical header comments are omitted. Source URLs, original file SHA-256 digests, calibration, selection and attribution are retained in metadata. See `docs/clinical-recordings.md` for the extraction and replay procedure.

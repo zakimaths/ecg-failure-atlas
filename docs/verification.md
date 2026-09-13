@@ -95,3 +95,16 @@ Observed locally on **13 September 2026**, on the same Apple Silicon Mac. The lo
 - Desktop and mobile plots were visually inspected. A frame-width mismatch and a mobile legend overlap found during review were corrected. The browser size checks confirm all three charts fit their containers with no document-level overflow.
 
 The custom format's numerical comparison tolerance is 1e-10 absolute and relative. It is separate from the prepared ZIP format and its 1e-12 numerical tolerance. These checks do not validate patient data, detector performance or clinical filter choices. See [the custom experiment method](custom-experiments.md) for the fixed reference, zero-extension boundary rule, noise distribution and error definitions.
+
+## Version 0.3 hospital recording analysis
+
+Observed locally on **13 September 2026**, on Apple Silicon macOS with the locked 0.3.0 environment.
+
+- **90 Python tests passed.** Added checks cover pinned dataset integrity, identity on all 36 recorded lead segments, signed format-16 decoding, source checksum failures, native-rate FIR delay, delay compensation, invalid settings and altered export rejection.
+- The three original headers and 12-lead signal files passed SHA-256 and WFDB channel checksum verification. Re-extracting the subset produced a byte-identical JSON file.
+- **72 clinical browser-engine/SciPy comparisons passed**, covering every record and lead in both timing modes with bypass, clipping and cutoff/length variations. Browser and Python each replayed the other's results.
+- **Chrome and WebKit clinical checks passed:** all three records, plotted source/output samples, identity, 12-lead table, cutoff selection, difference samples, pending export state, JSON/CSV downloads, shared-link reload, clipboard denial, replay import, altered attribution rejection, mobile fit and offline calculation on an already loaded page.
+- Each downloaded clinical JSON passed independent Python replay. Every CSV row matched its downloaded JSON, and CSV attribution/licence comments were checked.
+- The existing synthetic suites also passed: 14 independent numerical comparisons, all 15 reference cases in Chrome/WebKit, and both custom-page browser suites.
+
+The clinical subset is a convenience selection of three subjects, not a population benchmark. These checks establish source preservation and reproducible computation, not clinical effectiveness. Real-recording measurements are changes from recorded input; no clean physiological ground truth is claimed. See [clinical methods](clinical-recordings.md) and the [clinical browser results](clinical-browser-results.json).

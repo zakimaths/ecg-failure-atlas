@@ -43,7 +43,9 @@ jobs:
           cache: npm
       - run: npm ci --ignore-scripts
       - name: Check browser calculations independently with SciPy
-        run: uv run --locked python scripts/check-live.py
+        run: |
+          uv run --locked python scripts/check-live.py
+          uv run --locked python scripts/check-clinical.py
       - name: Install WebKit
         run: npx --no-install playwright-cli install-browser webkit
       - name: Verify the freshly generated gallery in WebKit
@@ -52,6 +54,8 @@ jobs:
         run: |
           npm run check:browser -- webkit
           npm run check:lab -- webkit
+          npm run check:clinical -- webkit
+          uv run --locked ecg-atlas replay-clinical output/playwright/webkit-clinical-analysis.json
           uv run --locked ecg-atlas replay-live output/playwright/webkit-live-experiment.json --mode saved-input
           uv run --locked ecg-atlas replay-live output/playwright/webkit-live-experiment.json --mode regenerate
       - name: Upload checked gallery

@@ -5,40 +5,40 @@
   <meta name="description" content="Build a reproducible ECG-like signal experiment. Compare noise, clipping and filter distortion, then replay the result in Python.">
   <meta name="theme-color" content="#0a0a0a">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect width='36' height='36' fill='%2333ff00'/%3E%3Cpath d='M5 19h8l3-9 4 17 3-8h8' fill='none' stroke='%230a0a0a' stroke-width='2'/%3E%3C/svg%3E">
-  <title>Build an experiment | ECG Failure Atlas</title>
+  <title>Synthetic signal analysis | ECG Failure Atlas</title>
   <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="lab.css">
   <script defer src="plotly.min.js"></script><script defer src="live-engine.js"></script><script defer src="lab.js"></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to experiment</a>
 <header class="site-header">
-  <a class="brand" href="index.html#clipping" aria-label="ECG Failure Atlas home"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M3 19h9l4-11 5 21 4-10h8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter"/></svg><span>ECG / SIGNAL STUDY</span></a>
+  <a class="brand" href="index.html#clipping" aria-label="ECG Failure Atlas home"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M3 19h9l4-11 5 21 4-10h8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter"/></svg><span>ECG / BIOCOMPUTING</span></a>
   <nav class="social-links" aria-label="Profile links at top"><a href="https://x.com/vesperlemma" target="_blank" rel="noopener noreferrer" aria-label="X profile (opens in a new tab)" title="X"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3L12 14.6 5.5 22H2.3l8.2-9.4L.8 2h6.5l4.5 6.7L18.9 2Zm-1.1 18h1.8L6.3 3.9H4.4L17.8 20Z"/></svg></a><a href="https://www.linkedin.com/in/alhasan-alkaseem/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile (opens in a new tab)" title="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5.4 7.3H1.8V22h3.6V7.3ZM3.6 1a2.2 2.2 0 1 0 0 4.4 2.2 2.2 0 0 0 0-4.4ZM22 13.1c0-4.4-2.3-6.4-5.4-6.4-2.5 0-3.6 1.4-4.2 2.3V7.3H8.8V22h3.6v-8.2c0-2.1.4-4.1 3-4.1s2.7 2.4 2.7 4.3v8H22v-8.9Z"/></svg></a><a href="https://github.com/zakimaths" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile (opens in a new tab)" title="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 .8a11.3 11.3 0 0 0-3.6 22c.6.1.8-.2.8-.5v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.8-1.3-1.8-1.1-.8.1-.8.1-.8 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.4-1.3-5.4-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2A11 11 0 0 1 12 5.5c1 0 2 .1 2.9.4 2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.8 5.5-5.4 5.8.4.4.8 1.1.8 2.2v3.4c0 .3.2.6.8.5A11.3 11.3 0 0 0 12 .8Z"/></svg></a></nav>
 </header>
 <main id="main" class="lab-page" tabindex="-1">
   <section class="project-intro">
-    <p class="project-kicker"><a href="index.html">← Five reference experiments</a><span>COMBINE AND COMPARE</span></p>
-    <h1>BUILD AN EXPERIMENT</h1>
-    <p class="project-description">When does smoothing help, and what does it remove? Add a known disturbance, choose a processing step, and measure both effects against the original signal.</p>
-    <div class="project-facts"><span>8 seconds at 500 Hz</span><span>Seeded noise</span><span>Python replay</span></div>
+    <p class="project-kicker"><a href="index.html">← Reference experiments</a><span>SYNTHETIC SIGNAL ANALYSIS</span></p>
+    <h1>SYNTHETIC EXPERIMENTS</h1>
+    <p class="project-description">Quantify noise suppression, waveform distortion and timing changes against a known reference. Configure the processing pipeline and export the computed result.</p>
+    <div class="project-facts"><span>8 seconds at 500 Hz</span><span>Seeded noise</span><span>Python replay</span><a href="clinical.html">Hospital recordings ↗</a></div>
   </section>
   <section aria-labelledby="choose-start">
-    <h2 id="choose-start" class="small-label">START WITH A QUESTION</h2>
+    <h2 id="choose-start" class="small-label">PROCESSING PRESETS</h2>
     <div class="lab-presets">
-      <button type="button" data-preset="noise">Can smoothing reduce noise?</button>
-      <button type="button" data-preset="clip">Can it restore a clipped peak?</button>
-      <button type="button" data-preset="delay">What does a causal filter delay?</button>
-      <button type="button" data-preset="identity">Check the unchanged reference</button>
+      <button type="button" data-preset="noise">Noise suppression</button>
+      <button type="button" data-preset="clip">Clipped waveform</button>
+      <button type="button" data-preset="delay">Causal filter delay</button>
+      <button type="button" data-preset="identity">Identity control</button>
     </div>
   </section>
   <form id="experiment-form" class="lab-form">
-    <fieldset><legend>1. Change the input</legend><div class="lab-fields">
+    <fieldset><legend>Input perturbations</legend><div class="lab-fields">
       <label>Noise scale <span>mV; uniform, expected RMS</span><input id="noise_mv" name="noise_mv" type="number" min="0" max="0.3" step="any" required></label>
       <label>Noise seed <span>Repeat the same samples</span><input id="seed" name="seed" type="number" min="1" max="4294967295" step="1" required></label>
       <label>Wander amplitude <span>mV; sinusoidal peak</span><input id="wander_mv" name="wander_mv" type="number" min="0" max="0.6" step="any" required></label>
       <label>Wander frequency <span>Hz</span><input id="wander_hz" name="wander_hz" type="number" min="0.05" max="2" step="any" required></label>
     </div></fieldset>
-    <fieldset><legend>2. Process the signal</legend><div class="lab-fields">
+    <fieldset><legend>Processing settings</legend><div class="lab-fields">
       <label>Clipping limit <span>mV; 0 turns clipping off</span><input id="clip_mv" name="clip_mv" type="number" min="0" max="2" step="any" required></label>
       <label>Low-pass cutoff <span>Hz; 0 turns filtering off</span><input id="cutoff_hz" name="cutoff_hz" type="number" min="0" max="100" step="any" required></label>
       <label>Filter length <span>Hamming-window FIR</span><select id="taps" name="taps"><option value="31">31 taps</option><option value="61">61 taps</option><option value="101">101 taps</option></select></label>
@@ -47,7 +47,7 @@
     <div class="lab-run"><button class="button" id="run" type="submit">Run experiment →</button><p id="run-status" role="status" aria-live="polite">Preparing the reference…</p></div>
   </form>
   <section id="lab-results" aria-labelledby="result-heading" hidden>
-    <div class="lab-result-heading"><div><p class="small-label">COMPUTED RESULT</p><h2 id="result-heading">Follow the signal through the experiment</h2></div><button type="button" id="full-record" class="secondary-button">Show all 8 seconds</button></div>
+    <div class="lab-result-heading"><div><p class="small-label">COMPUTED RESULT</p><h2 id="result-heading">Pipeline output</h2></div><button type="button" id="full-record" class="secondary-button">Show all 8 seconds</button></div>
     <p id="pipeline-note" class="lab-note"></p>
     <section class="instrument" aria-label="Custom signal comparison">
       <div class="instrument-bar"><div><p class="small-label">SAMPLES AND ERROR</p><h3 id="plot-heading">Reference and processed signals</h3></div><div class="view-switch"><button type="button" id="wave-view" aria-pressed="true">Waveforms</button><button type="button" id="error-view" aria-pressed="false">Error components</button></div></div>
@@ -58,25 +58,25 @@
     <div class="lab-landmarks" id="landmarks"></div>
     <p class="lab-note">Landmark timing uses the midpoint of the first and last tied maxima around the known beat at 3.7 s, within ±150 ms of its expected position after the declared FIR delay. This is a controlled landmark comparison, not an R-peak detector.</p>
     <section class="lab-section" aria-labelledby="decomposition-heading">
-      <p class="small-label">SEPARATE THE EFFECTS</p><h2 id="decomposition-heading">A smoother line can still be a less faithful signal</h2>
+      <p class="small-label">ERROR DECOMPOSITION</p><h2 id="decomposition-heading">Processing distortion and residual corruption</h2>
       <p>Run the same clipping and filtering on the clean reference. That branch measures the change introduced by processing alone. The difference between the two processed branches measures the effect of the added corruption through the pipeline.</p>
       <p id="comparison-summary" class="lab-observation"></p>
-      <details class="lab-details"><summary>How the error components add up</summary><p>Let d = processed clean − reference and e = processed corrupted − processed clean. The total error is exactly d + e. Squared errors include a cross term, so the two component RMS values cannot simply be added.</p><div id="error-identity" class="lab-equation"></div><p>This is an algebraic decomposition on these samples. With clipping, the effect of corruption is nonlinear. A different seed or reference can change the result.</p></details>
+      <details class="lab-details"><summary>Error definition</summary><p>Let d = processed clean − reference and e = processed corrupted − processed clean. The total error is exactly d + e. Squared errors include a cross term, so the two component RMS values cannot simply be added.</p><div id="error-identity" class="lab-equation"></div><p>This is an algebraic decomposition on these samples. With clipping, the effect of corruption is nonlinear. A different seed or reference can change the result.</p></details>
     </section>
     <section class="lab-section" aria-labelledby="response-heading">
-      <div class="lab-result-heading"><div><p class="small-label">INSPECT THE FILTER</p><h2 id="response-heading">What passes through, and when?</h2></div><div class="view-switch"><button type="button" id="magnitude-view" aria-pressed="true">Magnitude</button><button type="button" id="phase-view" aria-pressed="false">Phase</button></div></div>
+      <div class="lab-result-heading"><div><p class="small-label">FIR CHARACTERISATION</p><h2 id="response-heading">Frequency response</h2></div><div class="view-switch"><button type="button" id="magnitude-view" aria-pressed="true">Magnitude</button><button type="button" id="phase-view" aria-pressed="false">Phase</button></div></div>
       <p id="filter-explanation"></p>
       <div id="response-chart" class="lab-chart lab-response" role="img" aria-label="Computed FIR frequency response"></div>
       <p class="lab-note">This response describes only the linear FIR, not the clipping step. Magnitude is floored at −100 dB for display. Phase is unwrapped and shown only where magnitude exceeds −60 dB. The full coefficient list is included in the download.</p>
     </section>
     <section class="lab-section" aria-labelledby="sweep-heading">
-      <p class="small-label">TEST THE TRADEOFF</p><h2 id="sweep-heading">Sweep the cutoff using the same input</h2>
+      <p class="small-label">PARAMETER SENSITIVITY</p><h2 id="sweep-heading">Cutoff sweep</h2>
       <p>Every row reuses the exact reference, noise and wander samples. Only the low-pass cutoff changes. Select a row to inspect that experiment. These values describe this reference and seed; they do not identify a clinical filter setting.</p>
       <div id="sweep-chart" class="lab-chart lab-response" role="img" aria-label="Cutoff versus output error and clean-signal change"></div>
       <p class="lab-note lab-table-hint">Scroll the table sideways to see every measurement.</p><div class="lab-table-wrap"><table><caption>RMS error in [1, 7) seconds. All values in mV.</caption><thead><tr><th scope="col">Cutoff</th><th scope="col">Total output error</th><th scope="col">Clean signal changed</th><th scope="col">Corruption effect</th></tr></thead><tbody id="sweep-rows"></tbody></table></div>
     </section>
     <section class="lab-section lab-export" aria-labelledby="save-heading">
-      <div><p class="small-label">REPRODUCE THE RESULT</p><h2 id="save-heading">Keep the samples, not just the picture</h2><p>The experiment file includes every sample, all settings, FIR coefficients, the analysis window and measurements. A shared link carries the settings; it recalculates the result when opened.</p></div>
+      <div><p class="small-label">REPRODUCE THE RESULT</p><h2 id="save-heading">Export the experiment</h2><p>The experiment file includes every sample, all settings, FIR coefficients, the analysis window and measurements. A shared link carries the settings; it recalculates the result when opened.</p></div>
       <div class="lab-actions"><button id="save-experiment" class="button" type="button">Download experiment</button><button id="save-csv" class="secondary-button" type="button">Download CSV</button><button id="share-experiment" class="secondary-button" type="button">Copy experiment link</button></div>
       <p id="export-status" role="status"></p>
     </section>
@@ -89,6 +89,6 @@
 uv run --locked ecg-atlas replay-live experiment.json --mode saved-input
 uv run --locked ecg-atlas replay-live experiment.json --mode regenerate</pre><p>The browser uses direct convolution and a windowed-sinc filter. Python checks it with NumPy and SciPy. Zero samples are assumed outside the record. Centered filtering uses future samples and is an offline comparison, not real-time processing.</p><p>These synthetic samples are not patient data or a physiological simulation. This page tests engineering behaviour, not diagnostic performance.</p></details>
   </section>
-<footer class="site-footer"><div><a class="footer-brand" href="index.html#clipping">ECG FAILURE ATLAS</a><p>A synthetic signal study. Not a diagnostic tool.</p></div><nav class="social-links" aria-label="Profile links at bottom"><a href="https://x.com/vesperlemma" target="_blank" rel="noopener noreferrer" aria-label="X profile (opens in a new tab)" title="X"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3L12 14.6 5.5 22H2.3l8.2-9.4L.8 2h6.5l4.5 6.7L18.9 2Zm-1.1 18h1.8L6.3 3.9H4.4L17.8 20Z"/></svg></a><a href="https://www.linkedin.com/in/alhasan-alkaseem/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile (opens in a new tab)" title="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5.4 7.3H1.8V22h3.6V7.3ZM3.6 1a2.2 2.2 0 1 0 0 4.4 2.2 2.2 0 0 0 0-4.4ZM22 13.1c0-4.4-2.3-6.4-5.4-6.4-2.5 0-3.6 1.4-4.2 2.3V7.3H8.8V22h3.6v-8.2c0-2.1.4-4.1 3-4.1s2.7 2.4 2.7 4.3v8H22v-8.9Z"/></svg></a><a href="https://github.com/zakimaths" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile (opens in a new tab)" title="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 .8a11.3 11.3 0 0 0-3.6 22c.6.1.8-.2.8-.5v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.8-1.3-1.8-1.1-.8.1-.8.1-.8 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.4-1.3-5.4-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2A11 11 0 0 1 12 5.5c1 0 2 .1 2.9.4 2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.8 5.5-5.4 5.8.4.4.8 1.1.8 2.2v3.4c0 .3.2.6.8.5A11.3 11.3 0 0 0 12 .8Z"/></svg></a></nav></footer>
+<footer class="site-footer"><div><a class="footer-brand" href="index.html#clipping">ECG FAILURE ATLAS</a><p>Reproducible ECG signal analysis. Not a diagnostic tool.</p></div><nav class="social-links" aria-label="Profile links at bottom"><a href="https://x.com/vesperlemma" target="_blank" rel="noopener noreferrer" aria-label="X profile (opens in a new tab)" title="X"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3L12 14.6 5.5 22H2.3l8.2-9.4L.8 2h6.5l4.5 6.7L18.9 2Zm-1.1 18h1.8L6.3 3.9H4.4L17.8 20Z"/></svg></a><a href="https://www.linkedin.com/in/alhasan-alkaseem/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile (opens in a new tab)" title="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5.4 7.3H1.8V22h3.6V7.3ZM3.6 1a2.2 2.2 0 1 0 0 4.4 2.2 2.2 0 0 0 0-4.4ZM22 13.1c0-4.4-2.3-6.4-5.4-6.4-2.5 0-3.6 1.4-4.2 2.3V7.3H8.8V22h3.6v-8.2c0-2.1.4-4.1 3-4.1s2.7 2.4 2.7 4.3v8H22v-8.9Z"/></svg></a><a href="https://github.com/zakimaths" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile (opens in a new tab)" title="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 .8a11.3 11.3 0 0 0-3.6 22c.6.1.8-.2.8-.5v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.8-1.3-1.8-1.1-.8.1-.8.1-.8 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.4-1.3-5.4-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2A11 11 0 0 1 12 5.5c1 0 2 .1 2.9.4 2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.8 5.5-5.4 5.8.4.4.8 1.1.8 2.2v3.4c0 .3.2.6.8.5A11.3 11.3 0 0 0 12 .8Z"/></svg></a></nav></footer>
 </main><noscript>JavaScript is required to calculate these custom experiments. Python provides the same experiment and replay contract.</noscript>
 </body></html>

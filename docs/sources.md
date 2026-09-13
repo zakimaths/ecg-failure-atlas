@@ -1,6 +1,6 @@
 # Technical sources
 
-The larger research report in the repository covers scope, licensing, prior art and alternatives. These primary sources support the implemented mechanisms (checked 12 September 2026):
+These primary sources support the implemented mechanisms (checked 12 September 2026; clinical extension checked 13 September 2026):
 
 - [SciPy resample_poly](https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.resample_poly.html): explicit FIR coefficients, zero extension, and rational resampling.
 - [SciPy sosfiltfilt](https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.sosfiltfilt.html): forward/backward filtering and boundary options.
@@ -14,3 +14,10 @@ The larger research report in the repository covers scope, licensing, prior art 
 - [ECGSYN](https://physionet.org/content/ecgsyn/1.0.0/): prior physiological waveform generator. No code from this resource is included.
 
 The sinusoid, Gaussian components and test oracles in this repository are original implementations. Prior art is acknowledged; no novelty claim is made for generation, filtering, or aliasing. The contribution is the inspectable experiment and replay workflow.
+
+## Hospital recording extension
+
+- [PTB Diagnostic ECG Database v1.0.0](https://physionet.org/content/ptbdb/1.0.0/): source recordings, clinical collection institution and calibration.
+- [PTB data licence](https://physionet.org/content/ptbdb/view-license/1.0.0/): Open Data Commons Attribution v1.0, retained with the subset and its outputs.
+- [WFDB signal format](https://physionet.org/physiotools/wag/signal-5.htm): signed little-endian format 16.
+- [Clinical methods](clinical-recordings.md): fixed selection, extraction, processing changes and replay contract.

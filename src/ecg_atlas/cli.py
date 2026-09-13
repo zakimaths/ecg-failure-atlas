@@ -26,9 +26,18 @@ def main():
     p = commands.add_parser("replay-live", help="Check a custom browser experiment JSON")
     p.add_argument("source")
     p.add_argument("--mode", choices=("saved-input", "regenerate"), required=True)
+    p = commands.add_parser(
+        "replay-clinical", help="Verify a hospital-recording experiment against the pinned source"
+    )
+    p.add_argument("source")
     args = parser.parse_args()
     try:
-        if args.command in ("run-live", "replay-live"):
+        if args.command == "replay-clinical":
+            from . import clinical, live
+
+            clinical.replay(live.read_experiment(args.source))
+            print("PASS: clinical experiment · pinned source, arrays, coefficients and metrics")
+        elif args.command in ("run-live", "replay-live"):
             from pathlib import Path
             from . import live
             from .bundle import write_json

@@ -66,5 +66,9 @@ def export_gallery(root, out):
     for file in (Path(__file__).parent / "web").iterdir():
         if file.is_file():
             shutil.copy2(file, out / file.name)
+    from .clinical import dataset
+
+    payload = canonical(dataset()).decode().replace("<", "\\u003c")
+    (out / "clinical-data.js").write_text(f"globalThis.ECG_RECORDINGS={payload};\n")
     (out / ".nojekyll").touch()
     return out

@@ -1,16 +1,16 @@
 # ECG Failure Atlas
 
-**Five controlled experiments in ECG-like signal processing.**
+**Inspect ECG-like signal distortion and reproduce the experiment.**
 
-Five interactive experiments expose clipping, timing delay, aliasing, baseline-filter tradeoffs and filter-edge effects. Each setting comes with full-resolution arrays, measurements, a permanent configuration/input ID, and a replay bundle.
+Start with five controlled examples of clipping, timing delay, aliasing, baseline filtering and boundary effects. Then build a custom experiment with seeded noise, wander, clipping and an FIR filter. Inspect the waveforms, error components, frequency response and cutoff sweep.
 
-Built for **Apple Silicon macOS**, with a static gallery that can be hosted on GitHub Pages. Python computes every result; the browser selects and displays prepared experiments. The demo uses synthetic references and runs without a backend.
+Built for **Apple Silicon macOS**, with a static gallery that can be hosted on GitHub Pages. Python generates the prepared cases. The custom page calculates new results in JavaScript and supports independent replay with NumPy/SciPy. Both use synthetic references and work without a backend.
 
 ![The clipping experiment: a synthetic peak is flattened at 0.65 mV](docs/assets/gallery-desktop.png)
 
 ## Try the gallery
 
-[Open the demo](https://zakimaths.github.io/ecg-failure-atlas/) · [Watch the recording](docs/assets/ecg-failure-atlas-demo.mp4)
+[Reference experiments](https://zakimaths.github.io/ecg-failure-atlas/) · [Build an experiment](https://zakimaths.github.io/ecg-failure-atlas/lab.html) · [Prepared-case recording](docs/assets/ecg-failure-atlas-demo.mp4)
 
 Open **[gallery/index.html](gallery/index.html)** from your downloaded copy of the repository in a browser. All chart assets and data are included locally. Or serve it from the repository root:
 
@@ -19,6 +19,25 @@ python3 -m http.server 8765 --bind 127.0.0.1 --directory gallery
 ```
 
 Visit **http://127.0.0.1:8765**. Choose a case, change one of its three prepared settings, switch between Overlay and Difference, and download the exact result. Links retain the selected case and setting. Use the hosted demo link when sharing a case; `localhost` and `file:` links only work on your machine.
+
+## Go beyond the prepared settings
+
+The [custom experiment page](https://zakimaths.github.io/ecg-failure-atlas/lab.html) adds:
+
+- Seeded uniform noise and baseline wander, followed by adjustable clipping and low-pass filtering.
+- Causal and centered FIR comparisons with explicit timing and boundary assumptions.
+- A clean-input processing branch to separate signal distortion from the effect of corruption.
+- Magnitude and phase response, plus a cutoff sweep that reuses the exact same input.
+- Full JSON and CSV exports, shareable settings, and replay import that rejects altered results.
+
+![Custom signal comparison: seeded noise, filtered output and the processed clean reference](docs/assets/custom-experiment.png)
+
+[Method, equations and limits](docs/custom-experiments.md). The custom JSON has its own replay commands:
+
+```sh
+uv run --locked ecg-atlas replay-live experiment.json --mode saved-input
+uv run --locked ecg-atlas replay-live experiment.json --mode regenerate
+```
 
 ## Reproduce on an Apple Silicon Mac
 
@@ -54,6 +73,8 @@ The gallery needs no JavaScript build step. Node is used only for repeatable bro
 npm ci --ignore-scripts
 npx --no-install playwright-cli install-browser webkit
 npm run check:browser
+npm run check:lab
+uv run --locked python scripts/check-live.py
 ```
 
 The default check uses installed Chrome and Playwright WebKit. Run `npm run check:browser -- webkit` for WebKit alone. The runner starts and closes its own localhost server, checks all 15 settings against their saved samples and measurements, and writes results/screenshots under `output/playwright/`. It also checks keyboard controls, downloads, clipboard denial, narrow charts and offline viewing. Browser installation needs network access.
@@ -80,7 +101,7 @@ The generator is an original simplified ECG-like waveform, plus a pure sine prob
 
 ## Experiment structure
 
-- **One calculation engine:** Python/NumPy/SciPy; no duplicated browser filters.
+- **Independent implementations:** prepared cases use Python; the bounded custom engine uses browser convolution checked against NumPy/SciPy.
 - **15 saved settings:** three per experiment, with fixed axes and full-resolution metrics.
 - **Replay bundles:** inputs, outputs, intermediate branches, events, configuration, coefficients, metrics, environment and SHA-256 checksums.
 - **Separate checks:** payload integrity, saved-input recalculation, and full regeneration. A checksum is not proof of scientific correctness or authorship.
@@ -97,12 +118,14 @@ uv run --locked ruff check src tests
 uv run --locked ruff format --check src tests
 ```
 
-The public gallery supports prepared settings. For custom research experiments, use the Python functions in `reference.py`, `transforms.py` and `metrics.py`; expand recipes and tests deliberately. General patient-data upload, arbitrary browser filtering, detector scoring and Intel support are outside this version.
+The custom page supports a fixed synthetic reference and a bounded processing pipeline. For broader experiments, extend the Python functions and add independent checks. Patient-data upload, arbitrary processing code, detector scoring and Intel support are outside this version.
 
 ## Repository guide
 
 - `src/ecg_atlas/`: numeric engine, bundle validation, CLI and gallery source.
 - `recipes/demo.json`: the 15 prepared experiments.
+- `recipes/custom.json`: settings for the custom experiment engine.
+- [Custom experiments](docs/custom-experiments.md): filter response, error decomposition, sweeps and replay.
 - `tests/`: independent numeric oracles, replay and export checks.
 - `gallery/`: generated static site and self-contained downloads.
 - [Methodology](docs/methodology.md), [reproducibility](docs/reproducibility.md), [sources](docs/sources.md).

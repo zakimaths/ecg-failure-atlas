@@ -20,9 +20,32 @@ def main():
         p.add_argument("source")
         if name == "replay":
             p.add_argument("--mode", choices=("saved-input", "regenerate"), required=True)
+    p = commands.add_parser("run-live", help="Calculate a custom experiment from a settings JSON")
+    p.add_argument("source")
+    p.add_argument("--out", required=True)
+    p = commands.add_parser("replay-live", help="Check a custom browser experiment JSON")
+    p.add_argument("source")
+    p.add_argument("--mode", choices=("saved-input", "regenerate"), required=True)
     args = parser.parse_args()
     try:
-        if args.command == "build":
+        if args.command in ("run-live", "replay-live"):
+            from pathlib import Path
+            from . import live
+            from .bundle import write_json
+
+            document = live.read_experiment(args.source)
+            if args.command == "run-live":
+                out = Path(args.out)
+                if out.exists():
+                    raise ValueError("Output already exists; choose a fresh file")
+                result = live.evaluate(document)
+                out.parent.mkdir(parents=True, exist_ok=True)
+                write_json(out, result)
+                print(f"Custom experiment ready: {out}")
+            else:
+                live.replay(document, args.mode)
+                print(f"PASS: custom experiment · {args.mode} · arrays, coefficients and metrics")
+        elif args.command == "build":
             paths = build_collection(args.source, args.out)
             print(f"Built {len(paths)} self-contained cases in {args.out}")
         elif args.command == "export-gallery":

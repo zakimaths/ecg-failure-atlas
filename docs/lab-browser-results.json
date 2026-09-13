@@ -1,0 +1,57 @@
+{
+  "node": "v26.7.0",
+  "platform": "darwin",
+  "architecture": "arm64",
+  "results": [
+    {
+      "status": "passed",
+      "browser": "chrome",
+      "presets": 4,
+      "samples": 4000,
+      "download": "output/playwright/chrome-live-experiment.json",
+      "checks": [
+        "custom settings",
+        "pending export disabled",
+        "exact plot samples",
+        "error decomposition",
+        "phase response",
+        "cutoff selection",
+        "JSON and CSV download",
+        "link reload",
+        "clipboard fallback",
+        "replay import",
+        "tamper rejection",
+        "mobile fit",
+        "offline calculation",
+        "profile links",
+        "no em dashes"
+      ],
+      "errors": []
+    },
+    {
+      "status": "passed",
+      "browser": "webkit",
+      "presets": 4,
+      "samples": 4000,
+      "download": "output/playwright/webkit-live-experiment.json",
+      "checks": [
+        "custom settings",
+        "pending export disabled",
+        "exact plot samples",
+        "error decomposition",
+        "phase response",
+        "cutoff selection",
+        "JSON and CSV download",
+        "link reload",
+        "clipboard fallback",
+        "replay import",
+        "tamper rejection",
+        "mobile fit",
+        "offline calculation",
+        "profile links",
+        "no em dashes"
+      ],
+      "errors": []
+    }
+  ]
+}

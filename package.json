@@ -1,12 +1,18 @@
 {
   "name": "ecg-failure-atlas-checks",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Optional browser verification and demo recording; no JavaScript build step",
-  "engines": {"node": ">=22"},
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "check:browser": "node scripts/browser-check.mjs",
-    "record:demo": "node scripts/record-demo.mjs"
+    "record:demo": "node scripts/record-demo.mjs",
+    "check:live": "uv run --locked python scripts/check-live.py",
+    "check:lab": "node scripts/lab-browser-check.mjs"
   },
-  "devDependencies": {"@playwright/cli": "0.1.19"}
+  "devDependencies": {
+    "@playwright/cli": "0.1.19"
+  }
 }

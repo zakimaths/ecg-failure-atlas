@@ -1,0 +1,10 @@
+{
+  "noise_mv": 0.08,
+  "seed": 42,
+  "wander_mv": 0.0,
+  "wander_hz": 0.3,
+  "clip_mv": 0.0,
+  "cutoff_hz": 35.0,
+  "taps": 61,
+  "mode": "centered"
+}

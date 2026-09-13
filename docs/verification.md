@@ -82,3 +82,16 @@ Before publishing measured claims, regenerate release bundles from the chosen so
 The [first public workflow](https://github.com/zakimaths/ecg-failure-atlas/actions/runs/34688399062) passed on source revision `fe9026173ab70c665870668e81d92790766c85eb`. Its Apple Silicon job passed numerical tests, all 15 bundle builds and both replay modes, the gallery evidence check, and WebKit verification. GitHub Pages deployment also passed.
 
 A clipping bundle downloaded from the [live demo](https://zakimaths.github.io/ecg-failure-atlas/) recorded that same clean source revision and an arm64 macOS 15.7.9 environment. On the local Mac it passed payload verification, saved-input replay and full regeneration. This supplies a second-machine check in a hosted runner, but is not an independent scientific review by another person.
+
+## Version 0.2 custom experiments
+
+Observed locally on **13 September 2026**, on the same Apple Silicon Mac. The locked 0.2.0 environment installed successfully.
+
+- **71 Python tests passed**, including 26 new checks for seeded noise, identity, impulse delay, offline centering, analytic FIR gain/phase, the error cross term, invalid settings and replay rejection.
+- **14 browser-engine/Python configurations passed** both replay modes, coefficient and complex frequency-response comparisons, and every cutoff-sweep row. The browser engine also accepted independently produced Python experiments.
+- **Chrome and WebKit custom-page checks passed** the four starting questions, custom settings, exact plotted samples, pending export disabling, error decomposition, phase view, sweep selection, JSON/CSV download, reload, clipboard fallback, valid import and rejection of changed output.
+- Both custom pages calculated offline. Chrome additionally loaded `lab.html` directly from disk with networking disabled; WebKit used an already loaded page.
+- JSON files actually downloaded in Chrome and WebKit passed both Python replay modes. The checked Chrome CSV matched all 4,000 rows of its experiment JSON.
+- Desktop and mobile plots were visually inspected. A frame-width mismatch and a mobile legend overlap found during review were corrected. The browser size checks confirm all three charts fit their containers with no document-level overflow.
+
+The custom format's numerical comparison tolerance is 1e-10 absolute and relative. It is separate from the prepared ZIP format and its 1e-12 numerical tolerance. These checks do not validate patient data, detector performance or clinical filter choices. See [the custom experiment method](custom-experiments.md) for the fixed reference, zero-extension boundary rule, noise distribution and error definitions.

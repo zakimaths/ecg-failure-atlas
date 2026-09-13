@@ -194,3 +194,11 @@ A native details element separates methods from the main demonstration. Its summ
 - **Don't** obscure waveforms with scan lines, glow or decorative animation.
 - **Don't** use em dashes, simulated terminal activity or claims of diagnostic capability.
 - **Don't** use pixel display type for body copy or numeric results.
+
+## Custom experiment page
+
+The custom page follows the same reading order as the reference demo: question, controls, signal, measurements, interpretation and reproducible evidence. Two numbered fieldsets represent the actual input and processing stages. Their four-column fields become two columns on smaller screens. Starting questions are ordinary buttons rather than a second navigation sidebar.
+
+The large signal plot is followed by a clean-input comparison, FIR response and a cutoff sweep. Purple remains the reference, amber the processed signal and mint the processed clean branch. Error decomposition reuses those meanings. Native numeric fields and selects use the existing square boundaries and visible focus treatment. Downloads remain disabled while edits have not been calculated.
+
+The sweep has a contained horizontal table on narrow screens. Only the table scrolls; the page and charts fit the viewport. Chart frames use outlines so their inner dimensions agree with the plotting library's measured width. The interface adds no decorative motion or remote assets.

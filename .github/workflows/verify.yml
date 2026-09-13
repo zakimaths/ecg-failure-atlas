@@ -42,12 +42,18 @@ jobs:
           node-version-file: .node-version
           cache: npm
       - run: npm ci --ignore-scripts
+      - name: Check browser calculations independently with SciPy
+        run: uv run --locked python scripts/check-live.py
       - name: Install WebKit
         run: npx --no-install playwright-cli install-browser webkit
       - name: Verify the freshly generated gallery in WebKit
         env:
           ATLAS_GALLERY: build/site
-        run: npm run check:browser -- webkit
+        run: |
+          npm run check:browser -- webkit
+          npm run check:lab -- webkit
+          uv run --locked ecg-atlas replay-live output/playwright/webkit-live-experiment.json --mode saved-input
+          uv run --locked ecg-atlas replay-live output/playwright/webkit-live-experiment.json --mode regenerate
       - name: Upload checked gallery
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3

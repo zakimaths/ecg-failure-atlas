@@ -40,6 +40,18 @@ cmp build/ptb-rebuilt.json src/ecg_atlas/data/ptb-subset.json
 
 [Clinical methods, source provenance and data licence](docs/clinical-recordings.md).
 
+## Beat-detection sensitivity
+
+Compare beat candidates in the recorded and processed signals using a transparent slope-energy detector with a shared threshold. Inspect waveform markers, detector scores, one-to-one matches, unmatched candidates, raw and delay-adjusted timing shifts, and interval-based rate changes. Threshold, minimum spacing and matching tolerance are adjustable.
+
+[Open detection comparison](https://zakimaths.github.io/ecg-failure-atlas/clinical.html#beat-section). Export the complete detection analysis and replay it independently:
+
+```sh
+uv run --locked ecg-atlas replay-beats ecg-detection.json
+```
+
+The detector can select a dominant positive or negative deflection. It is not clinically validated, and unmatched candidates are not confirmed false or missed beats. No annotation-based accuracy is claimed. See [the detector method and replay contract](docs/beat-detection.md).
+
 ## Batch benchmark
 
 The [batch section](https://zakimaths.github.io/ecg-failure-atlas/clinical.html#batch-section) applies the selected clipping, FIR length and timing to **all 3 recordings × 12 leads**, sweeping 0, 12, 20, 35, 50 and 100 Hz plus the current cutoff. The default protocol produces **216 lead-setting results**.
@@ -109,8 +121,10 @@ npm run check:browser
 npm run check:lab
 npm run check:clinical
 npm run check:batch
+npm run check:beats
 uv run --locked python scripts/check-live.py
 uv run --locked python scripts/check-clinical.py
+uv run --locked python scripts/check-beats.py
 ```
 
 The default check uses installed Chrome and Playwright WebKit. Run `npm run check:browser -- webkit` for WebKit alone. The runner starts and closes its own localhost server, checks all 15 settings against their saved samples and measurements, and writes results/screenshots under `output/playwright/`. It also checks keyboard controls, downloads, clipboard denial, narrow charts and offline viewing. Browser installation needs network access.
@@ -154,7 +168,7 @@ uv run --locked ruff check src tests
 uv run --locked ruff format --check src tests
 ```
 
-The custom page supports a fixed synthetic reference and a bounded processing pipeline. For broader experiments, extend the Python functions and add independent checks. Patient-data upload, arbitrary processing code, detector scoring and Intel support are outside this version.
+The custom page supports a fixed synthetic reference and a bounded processing pipeline. For broader experiments, extend the Python functions and add independent checks. Patient-data upload, arbitrary processing code, annotation-based detector scoring and Intel support are outside this version.
 
 ## Repository guide
 

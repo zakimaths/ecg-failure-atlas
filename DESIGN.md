@@ -214,3 +214,7 @@ Clinical and synthetic analysis share an optional processing preview built from 
 ## Batch benchmark
 
 The batch section follows the clinical analysis on the same document-style page. Keep the protocol visible, make progress reflect actual completed lead-setting calculations, and keep cancel available during work. Use one median-change curve per recording; never present leads as independent subjects. Summary tables describe variation across a recording's 12 leads. The cutoff selector filters only the detailed table, while exports always contain all results. Changed settings visibly mark previous results stale and disable downloads. Results link directly to the exact clinical record/lead/settings. The batch itself has no decorative animation.
+
+## Beat-detection comparison
+
+The detection section sits below the recorded waveform measurements. Keep violet recorded candidates and amber processed candidates distinct with open-circle and cross markers as well as colour. A separate score view exposes the shared threshold. Show unmatched candidates as detection differences, with raw and delay-adjusted shifts in the event table. Rate estimates are explicitly based on candidate intervals. Keep methods in a native disclosure and disable exports when source or detector settings are pending. This remains an in-page analysis section without additional navigation chrome or decorative motion.

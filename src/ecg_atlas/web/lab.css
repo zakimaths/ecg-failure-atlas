@@ -18,3 +18,6 @@
 @media(max-width:560px){.clinical-page .measurements{grid-template-columns:1fr}}
 
 #batch-progress{width:100%;height:8px;accent-color:var(--accent)}#batch-status{font-size:12px;color:var(--accent);min-height:24px}.batch-filter{display:flex;align-items:center;gap:16px;font-size:12px;margin:20px 0}.batch-filter select{background:var(--surface);color:var(--ink);border:1px solid var(--control);padding:10px;font:inherit}#batch-section h3{margin-top:28px}
+
+#beat-status{font-size:12px;color:var(--accent)}#beat-form{margin:20px 0}#beat-metrics .metric-value{font-size:26px}#beat-chart{height:390px}
+@media(max-width:560px){#beat-chart{height:440px}}

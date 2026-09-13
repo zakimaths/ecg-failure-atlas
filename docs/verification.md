@@ -124,3 +124,16 @@ Observed locally on 13 September 2026, Apple Silicon macOS, with locked version 
 - Both existing clinical browser suites passed after the integration. The batch navigation checks cover direct and in-page links to the benchmark.
 
 The batch summaries describe three subjects. No lead-independence, clinical efficacy or population-level inference is established by these checks. See [batch methods](batch-benchmark.md).
+
+## Version 0.5 beat-detection comparison
+
+Observed locally on 13 September 2026, Apple Silicon macOS, with locked version 0.5.0 dependencies.
+
+- **118 Python tests passed**, including controlled pulse locations, a known 30 ms delay, polarity reversal, silence, insufficient intervals, attenuation with a shared threshold, recorded identity, optimal one-to-one matching, invalid settings and altered replay evidence.
+- **144 independent browser-engine/Python detection comparisons passed**, covering every one of the 36 recorded leads under four processing configurations. Threshold, minimum spacing and matching tolerance vary across runs. Candidate indices and complete fixed-point score arrays agree exactly; matching, rate estimates and source analyses pass replay.
+- An initial floating-point implementation produced a one-unit score discrepancy. The released detector uses a documented fixed-point input and integer arithmetic in both implementations, with independent moving-window calculations. Original clinical waveform exports are unchanged.
+- Chrome and WebKit passed direct detection-section navigation, unchanged-signal candidate identity, shared-threshold display, detector controls, processing changes, stale export protection, offline calculation, JSON/CSV export and mobile fit. Desktop and mobile plots were visually inspected.
+- Actual detection JSON downloads from both browsers passed independent Python replay. CSV event rows matched the JSON pairs and unmatched candidate lists; source attribution was retained.
+- Existing clinical, batch and process-playback browser suites passed in both engines. The independent 14 custom experiments, 72 clinical comparisons, 324 batch rows and all 15 prepared gallery variants also passed.
+
+The detector is a reproducible processing-sensitivity experiment. It is not clinically validated. These records supply no beat annotations in the bundled subset, so the project does not report detector sensitivity, precision or disease accuracy. See [the detector method](beat-detection.md).

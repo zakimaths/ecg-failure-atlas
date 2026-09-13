@@ -35,9 +35,18 @@ def main():
         p.add_argument("source")
         if name == "run-batch":
             p.add_argument("--out", required=True)
+    p = commands.add_parser("replay-beats", help="Independently check a beat-detection comparison")
+    p.add_argument("source")
     args = parser.parse_args()
     try:
-        if args.command in ("run-batch", "replay-batch"):
+        if args.command == "replay-beats":
+            from . import beats, live
+
+            beats.replay(live.read_experiment(args.source))
+            print(
+                "PASS: detection source, settings, scores, candidates, matching and rate estimates"
+            )
+        elif args.command in ("run-batch", "replay-batch"):
             from pathlib import Path
             from . import batch, live
             from .bundle import write_json

@@ -43,6 +43,17 @@
   $('clinical-import').addEventListener('change',async event=>{const file=event.target.files[0];if(!file||busy)return;try{if(file.size>2000000)throw Error('Analysis JSON must be smaller than 2 MB.');const doc=JSON.parse(await file.text());E.replay(doc,data);await run(doc.config);$('clinical-import-status').textContent='Replay passed: pinned source, samples, coefficients and measurements agree.';}catch(error){$('clinical-import-status').textContent='Replay rejected: '+error.message;}finally{event.target.value='';}});
   for(const r of data.records){const p=document.createElement('p');p.textContent=r.id+' · ';for(const [ext,info] of Object.entries(r.files)){const a=document.createElement('a');a.href=info.url;a.textContent=ext.toUpperCase()+' source';a.target='_blank';a.rel='noopener';p.append(a,document.createTextNode(' '));}$('source-files').append(p);}
   const observer=new ResizeObserver(()=>{if(result)Plotly.Plots.resize($('clinical-chart'));});observer.observe($('clinical-chart'));
-  async function route(){if(busy)return;try{const hash=location.hash.slice(1),sectionAnchor=['batch-section','beat-section'].includes(hash);if(sectionAnchor&&result){$(hash).scrollIntoView({behavior:'instant'});return;}if(hash&&!sectionAnchor&&(!hash.startsWith('v1/')||hash.length>2048))throw Error('Invalid analysis link.');const c=hash&&!sectionAnchor?JSON.parse(decodeURIComponent(hash.slice(3))):{...E.defaults};E.validate(c,data);form(c);await run(c);if(sectionAnchor)$(hash).scrollIntoView({behavior:'instant'});}catch(error){form(E.defaults);status(error.message+' Select settings and run analysis.',true);}}
+  async function route(){
+    if(busy)return;
+    try{
+      const hash=location.hash,anchor=['#batch-section','#beat-section','#stress-section'].includes(hash);
+      if(anchor&&result){$(hash.slice(1)).scrollIntoView({behavior:'instant'});return;}
+      const linked=hash&&!anchor?ECGClinicalLinks.decode(hash,data):{analysis:{...E.defaults},detector:{...ECGBeats.defaults}};
+      window.dispatchEvent(new CustomEvent('detector-restore',{detail:linked.detector}));
+      form(linked.analysis);await run(linked.analysis);
+      if(hash.startsWith('#v2/'))history.replaceState(null,'',hash);
+      if(anchor)$(hash.slice(1)).scrollIntoView({behavior:'instant'});
+    }catch(error){window.dispatchEvent(new Event('clinical-pending'));pending=true;freeze(false);form(E.defaults);status(error.message+' Select settings and run analysis.',true);}
+  }
   window.addEventListener('hashchange',route);await route();
 })();

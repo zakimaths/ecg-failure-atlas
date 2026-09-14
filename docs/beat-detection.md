@@ -37,7 +37,7 @@ uv run --locked ecg-atlas replay-beats ecg-detection.json
 
 Replay first verifies the clinical analysis against the bundled PTB samples, then recomputes the detection comparison in Python. Candidate indices and quantised score arrays must match exactly. Other numerical fields use the clinical format's 1e-10 absolute and relative tolerance. Missing, extra or altered evidence is rejected.
 
-CSV is an event table with source attribution, processing settings and detector settings in comment lines. Use JSON for full replay. The ordinary clinical share link saves recording and processing settings only; detector settings travel in the detection JSON.
+CSV is an event table with source attribution, processing settings and detector settings in comment lines. Use JSON for full replay. Use **Copy comparison link** to save both processing and detector settings in a version 2 link. The ordinary **Copy analysis link** saves processing settings only. Detector settings also travel in the detection JSON. See [complete links and the detector sweep](detector-sweep.md).
 
 The browser automatically updates detections after a successful clinical analysis. Detector edits require **Compare detections**. Pending changes disable detection exports. **Candidates** shows waveform markers; **Detector score** shows both score traces and their shared threshold. All calculations work locally after the page has loaded.
 

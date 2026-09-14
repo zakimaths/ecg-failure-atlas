@@ -37,9 +37,31 @@ def main():
             p.add_argument("--out", required=True)
     p = commands.add_parser("replay-beats", help="Independently check a beat-detection comparison")
     p.add_argument("source")
+    for name in ("run-stress", "replay-stress"):
+        p = commands.add_parser(name, help="Run or replay the detector sweep")
+        p.add_argument("source")
+        if name == "run-stress":
+            p.add_argument("--out", required=True)
     args = parser.parse_args()
     try:
-        if args.command == "replay-beats":
+        if args.command in ("run-stress", "replay-stress"):
+            from pathlib import Path
+            from . import stress, live
+            from .bundle import write_json
+
+            doc = live.read_experiment(args.source)
+            if args.command == "run-stress":
+                out = Path(args.out)
+                if out.exists():
+                    raise ValueError("Choose a fresh output file")
+                result = stress.evaluate(doc)
+                out.parent.mkdir(parents=True, exist_ok=True)
+                write_json(out, result)
+                print(f"Detector sweep ready: {len(result['rows'])} results in {out}")
+            else:
+                result = stress.replay(doc)
+                print(f"PASS: {len(result['rows'])} detector rows, settings, filters and source")
+        elif args.command == "replay-beats":
             from . import beats, live
 
             beats.replay(live.read_experiment(args.source))

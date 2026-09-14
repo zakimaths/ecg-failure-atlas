@@ -19,7 +19,7 @@
   <section class="project-intro">
     <p class="project-kicker"><a href="index.html">← Reference experiments</a><span>SYNTHETIC SIGNAL ANALYSIS</span></p>
     <h1>SYNTHETIC EXPERIMENTS</h1>
-    <p class="project-description">Quantify noise suppression, waveform distortion and timing changes against a known reference. Configure the processing pipeline and export the computed result.</p>
+    <p class="project-description">Add noise, change the filter and compare the output with a known reference.</p>
     <div class="project-facts"><span>8 seconds at 500 Hz</span><span>Seeded noise</span><span>Python replay</span><a href="clinical.html">Hospital recordings ↗</a></div>
   </section>
   <section aria-labelledby="choose-start">
@@ -47,43 +47,43 @@
     <div class="lab-run"><button class="button" id="run" type="submit">Run experiment →</button><p id="run-status" role="status" aria-live="polite">Preparing the reference…</p></div>
   </form>
   <section id="lab-results" aria-labelledby="result-heading" hidden>
-    <div class="lab-result-heading"><div><p class="small-label">COMPUTED RESULT</p><h2 id="result-heading">Pipeline output</h2></div><button type="button" id="full-record" class="secondary-button">Show all 8 seconds</button></div>
+    <div class="lab-result-heading"><div><p class="small-label">RESULT</p><h2 id="result-heading">Pipeline output</h2></div><button type="button" id="full-record" class="secondary-button">Show all 8 seconds</button></div>
     <p id="pipeline-note" class="lab-note"></p>
     <section class="instrument" aria-label="Custom signal comparison">
       <div class="instrument-bar"><div><p class="small-label">SAMPLES AND ERROR</p><h3 id="plot-heading">Reference and processed signals</h3></div><div class="view-switch"><button type="button" id="wave-view" aria-pressed="true">Waveforms</button><button type="button" id="error-view" aria-pressed="false">Error components</button></div></div>
       <div id="lab-chart" class="lab-chart" role="img" aria-label="Computed signal samples; numeric results follow"></div>
-      <p class="lab-plot-note">Drag to zoom. Click a legend label to hide its trace. Metrics always use [1, 7) seconds, excluding the outer second on each side.</p>
+      <p class="lab-plot-note">Drag to zoom. Select a legend label to hide a trace. Measurements use 1 to 7 seconds.</p>
     </section>
     <section class="measurements" id="live-metrics" aria-label="Custom measurements"></section>
     <div class="lab-landmarks" id="landmarks"></div>
-    <p class="lab-note">Landmark timing uses the midpoint of the first and last tied maxima around the known beat at 3.7 s, within ±150 ms of its expected position after the declared FIR delay. This is a controlled landmark comparison, not an R-peak detector.</p>
+    <details class="lab-details"><summary>Timing method</summary><p class="lab-note">Landmark timing uses the midpoint of the first and last tied maxima around the known beat at 3.7 s, within ±150 ms of its expected position after the declared FIR delay. This is a controlled landmark comparison, not an R-peak detector.</p></details>
     <section class="lab-section" aria-labelledby="decomposition-heading">
       <p class="small-label">ERROR DECOMPOSITION</p><h2 id="decomposition-heading">Processing distortion and residual corruption</h2>
-      <p>Run the same clipping and filtering on the clean reference. That branch measures the change introduced by processing alone. The difference between the two processed branches measures the effect of the added corruption through the pipeline.</p>
+      <p>Compare processing changes in the clean signal with the effect of added noise.</p>
       <p id="comparison-summary" class="lab-observation"></p>
-      <details class="lab-details"><summary>Error definition</summary><p>Let d = processed clean − reference and e = processed corrupted − processed clean. The total error is exactly d + e. Squared errors include a cross term, so the two component RMS values cannot simply be added.</p><div id="error-identity" class="lab-equation"></div><p>This is an algebraic decomposition on these samples. With clipping, the effect of corruption is nonlinear. A different seed or reference can change the result.</p></details>
+      <details class="lab-details"><summary>Error definition</summary><details class="lab-details"><summary>Error calculation</summary><p>Let d = processed clean − reference and e = processed corrupted − processed clean. The total error is exactly d + e. Squared errors include a cross term, so the two component RMS values cannot simply be added.</p></details><div id="error-identity" class="lab-equation"></div><p>This is an algebraic decomposition on these samples. With clipping, the effect of corruption is nonlinear. A different seed or reference can change the result.</p></details>
     </section>
     <section class="lab-section" aria-labelledby="response-heading">
       <div class="lab-result-heading"><div><p class="small-label">FIR CHARACTERISATION</p><h2 id="response-heading">Frequency response</h2></div><div class="view-switch"><button type="button" id="magnitude-view" aria-pressed="true">Magnitude</button><button type="button" id="phase-view" aria-pressed="false">Phase</button></div></div>
       <p id="filter-explanation"></p>
       <div id="response-chart" class="lab-chart lab-response" role="img" aria-label="Computed FIR frequency response"></div>
-      <p class="lab-note">This response describes only the linear FIR, not the clipping step. Magnitude is floored at −100 dB for display. Phase is unwrapped and shown only where magnitude exceeds −60 dB. The full coefficient list is included in the download.</p>
+      <details class="lab-details"><summary>Response limits</summary><p class="lab-note">This response describes only the linear FIR, not the clipping step. Magnitude is floored at −100 dB for display. Phase is unwrapped and shown only where magnitude exceeds −60 dB. The full coefficient list is included in the download.</p></details>
     </section>
     <section class="lab-section" aria-labelledby="sweep-heading">
       <p class="small-label">PARAMETER SENSITIVITY</p><h2 id="sweep-heading">Cutoff sweep</h2>
-      <p>Every row reuses the exact reference, noise and wander samples. Only the low-pass cutoff changes. Select a row to inspect that experiment. These values describe this reference and seed; they do not identify a clinical filter setting.</p>
+      <p>Compare cutoffs using the same input samples. Select a row to apply its cutoff.</p>
       <div id="sweep-chart" class="lab-chart lab-response" role="img" aria-label="Cutoff versus output error and clean-signal change"></div>
       <p class="lab-note lab-table-hint">Scroll the table sideways to see every measurement.</p><div class="lab-table-wrap"><table><caption>RMS error in [1, 7) seconds. All values in mV.</caption><thead><tr><th scope="col">Cutoff</th><th scope="col">Total output error</th><th scope="col">Clean signal changed</th><th scope="col">Corruption effect</th></tr></thead><tbody id="sweep-rows"></tbody></table></div>
     </section>
     <section class="lab-section lab-export" aria-labelledby="save-heading">
-      <div><p class="small-label">REPRODUCE THE RESULT</p><h2 id="save-heading">Export the experiment</h2><p>The experiment file includes every sample, all settings, FIR coefficients, the analysis window and measurements. A shared link carries the settings; it recalculates the result when opened.</p></div>
+      <div><p class="small-label">DOWNLOADS</p><h2 id="save-heading">Export the experiment</h2><p>Download the samples and settings, or copy a link to repeat this experiment.</p></div>
       <div class="lab-actions"><button id="save-experiment" class="button" type="button">Download experiment</button><button id="save-csv" class="secondary-button" type="button">Download CSV</button><button id="share-experiment" class="secondary-button" type="button">Copy experiment link</button></div>
       <p id="export-status" role="status"></p>
     </section>
   </section>
   <section class="lab-section" aria-labelledby="replay-heading">
     <h2 id="replay-heading">Replay a saved experiment</h2>
-    <p>Choose an experiment JSON from this page. The browser regenerates the reference and noise, reruns the pipeline, and compares all arrays, coefficients and measurements. A changed result is rejected. Nothing is uploaded.</p>
+    <p>Open a saved experiment JSON to verify and restore it. The file stays in your browser.</p>
     <label class="lab-import">Choose experiment JSON <input id="import-experiment" type="file" accept=".json,application/json"></label><p id="import-status" role="status"></p>
     <details class="lab-details"><summary>Check it independently in Python</summary><p>From the repository, install the locked environment. Both modes check the saved numerical results within a 1e-10 absolute/relative tolerance. Saved-input mode uses the stored input samples; regeneration also recreates the reference and seeded noise.</p><pre>uv sync --locked
 uv run --locked ecg-atlas replay-live experiment.json --mode saved-input

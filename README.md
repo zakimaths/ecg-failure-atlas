@@ -52,6 +52,19 @@ uv run --locked ecg-atlas replay-beats ecg-detection.json
 
 The detector can select a dominant positive or negative deflection. It is not clinically validated, and unmatched candidates are not confirmed false or missed beats. No annotation-based accuracy is claimed. See [the detector method and replay contract](docs/beat-detection.md).
 
+## Detector sweep
+
+[Compare detections across all 36 recorded leads](https://zakimaths.github.io/ecg-failure-atlas/clinical.html#stress-section). The default sweep produces 216 comparisons across six filter cutoffs. Switch between unmatched counts, matched counts, timing shifts and rate changes, then select a map cell to open its waveform with all processing and detector settings restored.
+
+JSON and CSV downloads include every recording and cutoff. Runs can be cancelled, and pending settings disable stale exports. Complete comparison links preserve threshold, minimum spacing and matching tolerance as well as the clinical settings.
+
+```sh
+uv run --locked ecg-atlas run-stress recipes/detector-sweep.json --out build/detector-sweep.json
+uv run --locked ecg-atlas replay-stress build/detector-sweep.json
+```
+
+[Map definitions, export format and replay method](docs/detector-sweep.md).
+
 ## Batch benchmark
 
 The [batch section](https://zakimaths.github.io/ecg-failure-atlas/clinical.html#batch-section) applies the selected clipping, FIR length and timing to **all 3 recordings × 12 leads**, sweeping 0, 12, 20, 35, 50 and 100 Hz plus the current cutoff. The default protocol produces **216 lead-setting results**.
@@ -122,9 +135,11 @@ npm run check:lab
 npm run check:clinical
 npm run check:batch
 npm run check:beats
+npm run check:stress
 uv run --locked python scripts/check-live.py
 uv run --locked python scripts/check-clinical.py
 uv run --locked python scripts/check-beats.py
+uv run --locked python scripts/check-stress.py
 ```
 
 The default check uses installed Chrome and Playwright WebKit. Run `npm run check:browser -- webkit` for WebKit alone. The runner starts and closes its own localhost server, checks all 15 settings against their saved samples and measurements, and writes results/screenshots under `output/playwright/`. It also checks keyboard controls, downloads, clipboard denial, narrow charts and offline viewing. Browser installation needs network access.

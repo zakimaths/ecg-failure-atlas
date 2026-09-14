@@ -48,6 +48,7 @@ jobs:
           uv run --locked python scripts/check-clinical.py
           uv run --locked python scripts/check-batch.py
           uv run --locked python scripts/check-beats.py
+          uv run --locked python scripts/check-stress.py
       - name: Install WebKit
         run: npx --no-install playwright-cli install-browser webkit
       - name: Verify the freshly generated gallery in WebKit
@@ -60,6 +61,9 @@ jobs:
           npm run check:motion -- webkit
           npm run check:batch -- webkit
           npm run check:beats -- webkit
+          npm run check:stress -- webkit
+          uv run --locked ecg-atlas replay-stress output/playwright/webkit-stress.json
+          uv run --locked ecg-atlas replay-beats output/playwright/webkit-stress-row.json
           uv run --locked ecg-atlas replay-beats output/playwright/webkit-beats.json
           uv run --locked ecg-atlas replay-batch output/playwright/webkit-batch.json
           uv run --locked ecg-atlas replay-clinical output/playwright/webkit-clinical-analysis.json

@@ -1,0 +1,20 @@
+{
+  "processing": {
+    "clip_mv": 0,
+    "cutoffs_hz": [
+      0,
+      12,
+      20,
+      35,
+      50,
+      100
+    ],
+    "taps": 61,
+    "mode": "centered"
+  },
+  "detector": {
+    "threshold_ratio": 0.3,
+    "refractory_ms": 250,
+    "match_ms": 100
+  }
+}

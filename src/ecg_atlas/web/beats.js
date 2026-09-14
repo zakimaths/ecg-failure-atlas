@@ -2,10 +2,11 @@
 (() => {
  const $=id=>document.getElementById(id),E=ECGBeats;let analysis=null,result=null,busy=false,revision=0,view='wave',pending=true;
  const fmt=v=>v===null?'Unavailable':Number(v.toFixed(2)).toString();
- function lock(value){['beat-json','beat-csv'].forEach(id=>{$(id).disabled=value;});}
+ function lock(value){['beat-json','beat-csv','beat-share'].forEach(id=>{$(id).disabled=value;});}
  function settings(){const c={threshold_ratio:Number($('beat-threshold').value),refractory_ms:Number($('beat-refractory').value),match_ms:Number($('beat-tolerance').value)};E.validate(c);return c;}
- function dirty(message){revision++;pending=true;lock(true);$('beat-status').textContent=message;}
- window.addEventListener('clinical-pending',()=>{analysis=null;dirty('Clinical settings changed. Run analysis to update detections.');$('beat-run').disabled=true;});
+ function dirty(message){window.dispatchEvent(new Event('detector-pending'));revision++;pending=true;lock(true);$('beat-status').textContent=message;}
+ window.addEventListener('clinical-pending',()=>{analysis=null;dirty('Run analysis to update detections.');$('beat-run').disabled=true;});
+ window.addEventListener('detector-restore',event=>{for(const [key,id] of [['threshold_ratio','beat-threshold'],['refractory_ms','beat-refractory'],['match_ms','beat-tolerance']])$(id).value=event.detail[key];});
  window.addEventListener('clinical-samples',event=>{analysis=event.detail;compare();});
  function appendRow(values){const tr=document.createElement('tr');for(const v of values){const td=document.createElement('td');td.textContent=v;tr.append(td);}$('beat-rows').append(tr);}
  function tableRows(d){return [...d.matches.map(p=>({kind:'Matched',r:p.recorded_sample,o:p.output_sample,shift:p.shift_ms,adjusted:p.adjusted_shift_ms})),...d.recorded_only.map(p=>({kind:'Recorded only',r:p,o:null,shift:null,adjusted:null})),...d.output_only.map(p=>({kind:'Processed only',r:null,o:p,shift:null,adjusted:null}))].sort((a,b)=>(a.r??a.o)-(b.r??b.o));}
@@ -30,15 +31,16 @@
    for(const [label,value] of [['Matched candidates',d.matches.length],['Recorded only',d.recorded_only.length],['Processed only',d.output_only.length],['Median adjusted shift (ms)',fmt(d.median_adjusted_shift_ms)]]){const el=document.createElement('article');el.className='metric';const h=document.createElement('h3');h.textContent=label;const v=document.createElement('div');v.className='metric-value';v.textContent=value;el.append(h,v);$('beat-metrics').append(el);}
    $('beat-rates').textContent=`Detected candidates: ${d.recorded_peaks.length} recorded / ${d.output_peaks.length} processed. Estimated rates: ${fmt(d.recorded_rate_bpm)} / ${fmt(d.output_rate_bpm)} bpm. Rate change: ${fmt(d.rate_change_bpm)} bpm. Median raw shift: ${fmt(d.median_shift_ms)} ms.`;
    $('beat-rows').replaceChildren();for(const row of tableRows(d))appendRow([row.kind,row.r===null?'N/A':(row.r/1000).toFixed(3),row.o===null?'N/A':(row.o/1000).toFixed(3),row.shift===null?'N/A':row.shift,row.adjusted===null?'N/A':row.adjusted]);
-   await plot();if(token!==revision)return;pending=false;lock(false);$('beat-status').textContent='Detection comparison complete. Results describe algorithm changes, not annotated-beat accuracy.';
+   await plot();if(token!==revision)return;pending=false;lock(false);$('beat-status').textContent='Detection comparison complete.';window.dispatchEvent(new CustomEvent('detector-result',{detail:{analysis:next.analysis.config,detector:c}}));
   }catch(error){if(token===revision)$('beat-status').textContent='Detection comparison failed: '+error.message;}
   finally{busy=false;$('beat-run').disabled=!analysis;}
  }
- $('beat-form').addEventListener('input',()=>dirty('Detector settings changed. Compare detections to update the results.'));
+ $('beat-form').addEventListener('input',()=>dirty('Settings changed. Select Compare detections.'));
  $('beat-form').addEventListener('submit',e=>{e.preventDefault();if(!busy)compare();});
  $('beat-wave').onclick=()=>{view='wave';plot();};$('beat-energy').onclick=()=>{view='score';plot();};
  function download(name,text,type){const u=URL.createObjectURL(new Blob([text],{type})),a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),10000);}
  $('beat-json').onclick=()=>{if(result&&!pending)download('ecg-detection.json',JSON.stringify(result)+'\n','application/json');};
+ $('beat-share').onclick=async()=>{if(!result||pending)return;const url=new URL(location.href);url.hash=ECGClinicalLinks.encode(result.analysis.config,result.detector);history.replaceState(null,'',url);try{await navigator.clipboard.writeText(url.href);$('beat-status').textContent='Comparison link copied.';}catch{$('beat-status').textContent='Copy the comparison link from the address bar.';}};
  $('beat-csv').onclick=()=>{if(!result||pending)return;const s=result.analysis.source,lines=['# '+s.attribution,'# Source: '+s.source_url+'; license: '+s.license_url,'# Processing: '+JSON.stringify(result.analysis.config),'# Detector: '+JSON.stringify(result.detector),'# Candidate differences, not annotated accuracy. Indices at 1000 Hz. JSON provides full replay evidence.','comparison,recorded_sample,output_sample,shift_ms,adjusted_shift_ms'];for(const r of tableRows(result.detection))lines.push([r.kind,r.r??'',r.o??'',r.shift??'',r.adjusted??''].join(','));download('ecg-detection-events.csv',lines.join('\n')+'\n','text/csv');};
  new ResizeObserver(()=>{if($('beat-chart').data){Plotly.relayout($('beat-chart'),{'margin.t':$('beat-chart').clientWidth<560?125:75});Plotly.Plots.resize($('beat-chart'));}}).observe($('beat-chart'));
 })();

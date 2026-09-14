@@ -139,3 +139,16 @@ Observed locally on 13 September 2026, Apple Silicon macOS, with locked version 
 The detector is a reproducible processing-sensitivity experiment. It is not clinically validated. These records supply no beat annotations in the bundled subset, so the project does not report detector sensitivity, precision or disease accuracy. See [the detector method](beat-detection.md).
 
 The first hosted 0.5 check stopped on document overflow during a mobile batch-page resize. Chart frames now contain intermediate render sizes, and browser checks wait for every displayed clinical plot to fit its frame. The strengthened batch and detection checks pass in Chrome and WebKit locally.
+
+## Version 0.6 detector sweep and interface copy
+
+Observed locally on 14 September 2026, Apple Silicon macOS, with locked version 0.6.0 dependencies.
+
+- **130 Python tests passed.** New tests cover all-lead identity, fixed recorded thresholds across cutoffs, agreement with an individual detection comparison, invalid protocols and altered rows, source, filters, candidate indices, rates and detector method constants.
+- **324 browser-engine detector sweep rows** across two protocols passed independent Python replay. The second protocol uses clipping, causal filtering, 101 taps, a 12.5 Hz cutoff and non-default detector settings. Complete-link round trips, legacy links, malformed links and unavailable map values also passed.
+- Chrome and WebKit passed the new sweep checks: 216-row coverage, record and measurement selection, identity, cancellation, pending settings, offline calculation, complete-setting drilldown, shared-link reload, exports, mobile fit and settings changes during calculation.
+- Both downloaded sweep JSON files and the selected single-comparison file passed Python replay. CSV rows matched the complete JSON results. The supplied command-line recipe also produced and replayed all 216 comparisons.
+- Existing clinical, single-detector, batch, synthetic custom, playback and 15-case gallery browser suites passed in Chrome and WebKit after integration. An initial concurrent browser-tool run timed out; running browser sessions sequentially completed the checks.
+- Desktop and mobile views were inspected. Main-page instructions were shortened, repeated section labels removed, and detailed calculations moved into method disclosures. Source attribution and result limitations remain available. Map instructions sit outside the horizontal table so they wrap on narrow screens.
+
+The sweep measures detector changes across processing settings. It does not add expert beat annotations or establish clinical accuracy. See [the sweep method](detector-sweep.md).

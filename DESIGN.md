@@ -218,3 +218,9 @@ The batch section follows the clinical analysis on the same document-style page.
 ## Beat-detection comparison
 
 The detection section sits below the recorded waveform measurements. Keep violet recorded candidates and amber processed candidates distinct with open-circle and cross markers as well as colour. A separate score view exposes the shared threshold. Show unmatched candidates as detection differences, with raw and delay-adjusted shifts in the event table. Rate estimates are explicitly based on candidate intervals. Keep methods in a native disclosure and disable exports when source or detector settings are pending. This remains an in-page analysis section without additional navigation chrome or decorative motion.
+
+## Detector sweep and interface copy
+
+Use the existing square table cells for a record-by-cutoff comparison map. Values are links with visible focus and readable numbers; colour adds magnitude without replacing the values. Keep one colour scale across all recordings in a run. Show N/A distinctly from zero and keep the map inside a horizontal scroll frame on mobile. A selected cell opens the exact single comparison, including detector settings.
+
+Use short operating instructions on the main pages. Avoid repeated section kickers, promotional phrasing and paragraphs that restate a heading. Keep calculation details in named method disclosures, while retaining source attribution and the distinction between detection changes and annotated accuracy.

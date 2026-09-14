@@ -5,10 +5,10 @@
   const fmt=v=>v===0?'0':v.toFixed(5);
   function lock(disabled){['batch-json','batch-csv'].forEach(id=>{$(id).disabled=disabled;});}
   function cancel(message){revision++;busy=false;$('batch-cancel').hidden=true;$('batch-progress').hidden=true;$('batch-run').disabled=!config;lock(true);$('batch-status').textContent=message;}
-  window.addEventListener('clinical-pending',()=>{config=null;cancel('Analysis settings changed. Run analysis, then rerun the batch. Previous results are not current.');});
+  window.addEventListener('clinical-pending',()=>{config=null;cancel('Settings changed. Run analysis before rerunning the batch.');});
   window.addEventListener('clinical-result',event=>{
     const c=event.detail;
-    cancel('Batch protocol updated. Run batch to calculate all recordings.');
+    cancel('Ready to run all 36 leads.');
     config={clip_mv:c.clip_mv,cutoffs_hz:[...new Set([0,12,20,35,50,100,c.cutoff_hz])].sort((a,b)=>a-b),taps:c.taps,mode:c.mode};
     $('batch-run').disabled=false;
     $('batch-protocol').textContent=`Applied protocol: ${c.clip_mv?'±'+c.clip_mv+' mV clipping':'clipping bypass'} · ${c.taps} taps · ${c.mode} · ${config.cutoffs_hz.length} cutoffs · ${config.cutoffs_hz.length*36} lead-setting results.`;
@@ -47,7 +47,7 @@
     }catch(error){if(token===revision)$('batch-status').textContent='Batch failed: '+error.message;}
     finally{if(token===revision){busy=false;$('batch-run').disabled=!config;$('batch-cancel').hidden=true;$('batch-progress').hidden=true;}}
   };
-  $('batch-cancel').onclick=()=>cancel('Batch cancelled. Partial results are not exported.');
+  $('batch-cancel').onclick=()=>cancel('Batch cancelled. Run again to calculate all results.');
   $('batch-cutoff').onchange=renderRows;
   function download(name,text,type){const url=URL.createObjectURL(new Blob([text],{type})),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);}
   $('batch-json').onclick=()=>{if(documentResult&&!$('batch-json').disabled)download('ecg-batch.json',JSON.stringify(documentResult)+'\n','application/json');};
